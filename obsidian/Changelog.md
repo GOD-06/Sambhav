@@ -1,5 +1,14 @@
 # Obsidian Project Change Log
 
+## [1.3.6] - Mirror Deployment to Sambhav-Kochi Repository
+
+### Changes Implemented
+- **Sambhav-Kochi Repository Synchronization**:
+  - Configured remote endpoint `https://github.com/GOD-06/Sambhav-Kochi.git`.
+  - Pushed branch `main` with complete backend, frontend, seed scripts, and documentation vault.
+
+---
+
 ## [1.3.5] - Remote Repository Deployment to GitHub
 
 ### Changes Implemented
