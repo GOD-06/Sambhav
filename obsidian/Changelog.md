@@ -1,5 +1,18 @@
 # Obsidian Project Change Log
 
+## [1.3.7] - Clean Repository Optimization & Removal of Unnecessary Files
+
+### Changes Implemented
+- **Removed Redundant Tracker & Artifact Files**:
+  - Removed obsolete root planning files (`Brightloop Project Tracker.md`, `CHANGELOG.md`, `PROJECT_GUIDE.md`).
+  - Removed duplicate seed script `seed_packages.py` (superseded by `seed_10_packages.py`).
+  - Removed untracked root `.obsidian` workspace cache files and added `.obsidian/` to `.gitignore`.
+- **Purged AI References**:
+  - Renamed package 5 to `Advanced Analytics Intelligence`.
+  - Removed AI substring filters and artificial gradient mentions across codebase and documentation.
+
+---
+
 ## [1.3.6] - Mirror Deployment to Sambhav-Kochi Repository
 
 ### Changes Implemented
@@ -30,7 +43,7 @@
     2. Developer Pro Sandbox ($29.00 / month)
     3. Team Collaboration Plus ($39.00 / month)
     4. Professional Suite ($49.00 / month)
-    5. AI Analytics Intelligence ($79.00 / month)
+    5. Advanced Analytics Intelligence ($79.00 / month)
     6. Enterprise Growth Tier ($99.00 / month)
     7. CyberShield Sentinel ($119.00 / month)
     8. High-Frequency API Gateway ($149.00 / month)
@@ -164,7 +177,7 @@
 - **Data Cleanup**: Purged fabricated demo data. Preserved clean administrator account (`admin@brightloop.com`).
 - **Text & Tone Refinement**: Removed unnecessary text, marketing filler, demo hints, and redundant descriptions.
 - **Typography & Formatting**: Removed all em dashes and en dashes across views, replacing with standard hyphens or clean separators. Removed all emojis.
-- **Design System Overhaul**: Removed all AI gradients, background gradients, and aggressive drop-shadows.
+- **Design System Overhaul**: Removed all artificial gradients, background gradients, and aggressive drop-shadows.
 - **Obsidian Vault Setup**: Added dedicated `obsidian/` folder containing complete architectural documentation, data models, API reference, access control matrices, and changelog.
 
 ---

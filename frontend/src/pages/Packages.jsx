@@ -104,7 +104,7 @@ export default function Packages() {
         '99.9% High Availability SLA',
       ];
     }
-    if (name.includes('ai') || name.includes('analytics') || name.includes('intelligence')) {
+    if (name.includes('analytics') || name.includes('intelligence')) {
       return [
         'Predictive Revenue Forecasting',
         'Customer Churn Detection',

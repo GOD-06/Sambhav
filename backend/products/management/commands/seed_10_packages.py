@@ -133,7 +133,7 @@ class Command(BaseCommand):
                 'allow_early_close': True,
             },
             {
-                'name': 'AI Analytics Intelligence',
+                'name': 'Advanced Analytics Intelligence',
                 'product': products['Cognitive Analytics Engine'],
                 'price': Decimal('79.00'),
                 'billing_frequency': 'monthly',

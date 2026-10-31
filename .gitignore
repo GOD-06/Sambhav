@@ -22,8 +22,9 @@ yarn-error.log*
 .env
 .env.local
 
-# IDE
+# IDE & Editor Cache
 .vscode/
 .idea/
+.obsidian/
 *.swp
 
