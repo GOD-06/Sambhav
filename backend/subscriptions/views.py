@@ -180,3 +180,4 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
         sub.next_billing_date = calculate_next_billing_date(today, sub.plan.billing_frequency)
         sub.save()
         return Response({'message': 'Subscription renewed successfully.', 'status': sub.status, 'next_billing_date': sub.next_billing_date})
+

@@ -65,3 +65,4 @@ class InvoiceSerializer(serializers.ModelSerializer):
             instance.calculate_totals()
 
         return instance
+

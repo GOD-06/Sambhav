@@ -70,3 +70,4 @@ class DiscountRule(models.Model):
         elif self.discount_type == 'percentage':
             return (amount * self.value) / Decimal('100')
         return Decimal('0.00')
+

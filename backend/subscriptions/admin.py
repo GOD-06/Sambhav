@@ -32,3 +32,4 @@ class SubscriptionAdmin(admin.ModelAdmin):
     list_filter = ('status', 'plan')
     search_fields = ('subscription_number', 'customer__email')
     inlines = [SubscriptionLineInline]
+

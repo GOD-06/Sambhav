@@ -124,3 +124,4 @@ class SubscriptionSerializer(serializers.ModelSerializer):
                 SubscriptionLine.objects.create(subscription=instance, **line_data)
 
         return instance
+

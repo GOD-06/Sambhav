@@ -5,7 +5,7 @@ import DataTable from '../components/DataTable';
 import Modal from '../components/Modal';
 import FormField from '../components/FormField';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { Users, Plus, Search, Building, Mail, Phone, Calendar } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function Customers() {
@@ -45,7 +45,7 @@ export default function Customers() {
     setCreating(true);
     try {
       await customerService.create(formData);
-      toast.success('Customer created successfully.');
+      toast.success('Customer created.');
       setIsModalOpen(false);
       setFormData({ email: '', first_name: '', last_name: '', company_name: '', phone: '', password: '' });
       loadCustomers();
@@ -69,49 +69,40 @@ export default function Customers() {
 
   const columns = [
     {
-      header: 'Customer',
+      header: 'Name',
       accessor: (c) => (
-        <div>
-          <div className="font-medium text-gray-900">{c.first_name ? `${c.first_name} ${c.last_name || ''}` : c.email}</div>
-          <div className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
-            <Mail className="w-3 h-3" /> {c.email}
-          </div>
-        </div>
+        <span className="font-medium text-slate-900">
+          {c.first_name ? `${c.first_name} ${c.last_name || ''}` : c.email}
+        </span>
       ),
+    },
+    {
+      header: 'Email',
+      accessor: (c) => <span className="text-slate-600">{c.email}</span>,
     },
     {
       header: 'Company',
-      accessor: (c) => (
-        <span className="text-gray-700 flex items-center gap-1.5">
-          <Building className="w-3.5 h-3.5 text-gray-400" />
-          {c.company_name || 'Individual'}
-        </span>
-      ),
+      accessor: (c) => <span className="text-slate-600">{c.company_name || 'Individual'}</span>,
     },
     {
       header: 'Phone',
-      accessor: (c) => (
-        <span className="text-gray-600 text-xs">
-          {c.phone || '—'}
-        </span>
-      ),
+      accessor: (c) => <span className="text-slate-500">{c.phone || 'N/A'}</span>,
     },
     {
-      header: 'Joined Date',
+      header: 'Date Joined',
       accessor: (c) => (
-        <span className="text-gray-500 text-xs flex items-center gap-1">
-          <Calendar className="w-3 h-3 text-gray-400" />
-          {c.created_at ? new Date(c.created_at).toLocaleDateString() : 'Active'}
+        <span className="text-slate-500">
+          {c.created_at ? new Date(c.created_at).toLocaleDateString() : 'N/A'}
         </span>
       ),
     },
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <PageHeader
-        title="Customer Directory"
-        description="Manage accounts, contact details, and customer billing profiles"
+        title="Customers"
+        description="Customer accounts and contact details"
         action={{
           label: 'Add Customer',
           icon: Plus,
@@ -119,21 +110,20 @@ export default function Customers() {
         }}
       />
 
-      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-4">
-        {/* Search Input */}
-        <div className="relative mb-4 max-w-md">
-          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
+        <div className="relative mb-3 max-w-sm">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search by name, email, company..."
-            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+            placeholder="Search customers..."
+            className="w-full pl-9 pr-3 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
           />
         </div>
 
         {loading ? (
-          <div className="py-20 flex justify-center">
+          <div className="py-12 flex justify-center">
             <LoadingSpinner size="lg" />
           </div>
         ) : (
@@ -141,9 +131,8 @@ export default function Customers() {
         )}
       </div>
 
-      {/* Create Customer Modal */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Register New Customer">
-        <form onSubmit={handleCreateCustomer} className="space-y-4">
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Add Customer">
+        <form onSubmit={handleCreateCustomer} className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <FormField label="First Name" required>
               <input
@@ -151,7 +140,7 @@ export default function Customers() {
                 required
                 value={formData.first_name}
                 onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
               />
             </FormField>
             <FormField label="Last Name">
@@ -159,7 +148,7 @@ export default function Customers() {
                 type="text"
                 value={formData.last_name}
                 onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
               />
             </FormField>
           </div>
@@ -170,17 +159,17 @@ export default function Customers() {
               required
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
             />
           </FormField>
 
           <div className="grid grid-cols-2 gap-3">
-            <FormField label="Company Name">
+            <FormField label="Company">
               <input
                 type="text"
                 value={formData.company_name}
                 onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
               />
             </FormField>
             <FormField label="Phone">
@@ -188,36 +177,35 @@ export default function Customers() {
                 type="text"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
               />
             </FormField>
           </div>
 
-          <FormField label="Initial Password" required help="Minimum 8 characters">
+          <FormField label="Password" required help="Minimum 8 characters">
             <input
               type="password"
               required
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              placeholder="••••••••"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
             />
           </FormField>
 
-          <div className="flex justify-end gap-2 pt-4 border-t border-gray-100">
+          <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50"
+              className="px-3 py-1.5 border border-slate-300 rounded text-xs text-slate-700 hover:bg-slate-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={creating}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
+              className="px-3 py-1.5 bg-blue-700 text-white rounded text-xs font-medium hover:bg-blue-800 disabled:opacity-50"
             >
-              {creating ? 'Saving...' : 'Create Customer'}
+              {creating ? 'Saving...' : 'Save'}
             </button>
           </div>
         </form>

@@ -10,7 +10,7 @@ import Modal from '../components/Modal';
 import FormField from '../components/FormField';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAuth } from '../context/AuthContext';
-import { FileBarChart, Plus, CheckCircle, Eye, Calendar, User, DollarSign } from 'lucide-react';
+import { Plus, Eye, Check } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function Quotations() {
@@ -49,7 +49,7 @@ export default function Quotations() {
       setPlans(pData.results || pData);
       setProducts(prodData.results || prodData);
     } catch (err) {
-      toast.error('Failed to load quotation data.');
+      toast.error('Failed to load quotations.');
     } finally {
       setLoading(false);
     }
@@ -95,7 +95,7 @@ export default function Quotations() {
     setSubmitting(true);
     try {
       await quotationService.create(form);
-      toast.success('Quotation draft created successfully.');
+      toast.success('Quotation created.');
       setIsCreateModalOpen(false);
       loadData();
     } catch (err) {
@@ -108,7 +108,7 @@ export default function Quotations() {
   const handleAcceptQuotation = async (id) => {
     try {
       const res = await quotationService.accept(id);
-      toast.success(res.message || 'Quotation accepted into confirmed subscription!');
+      toast.success(res.message || 'Quotation accepted.');
       loadData();
       setSelectedQuotation(null);
     } catch (err) {
@@ -119,20 +119,20 @@ export default function Quotations() {
   const columns = [
     {
       header: 'Quotation #',
-      accessor: (q) => <span className="font-semibold text-blue-600">{q.quotation_number}</span>,
+      accessor: (q) => <span className="font-semibold text-blue-700">{q.quotation_number}</span>,
     },
     {
       header: 'Customer',
       accessor: (q) => (
         <div>
-          <div className="font-medium text-gray-900">{q.customer_name || q.customer_email}</div>
-          <div className="text-xs text-gray-400">{q.customer_email}</div>
+          <div className="font-medium text-slate-900">{q.customer_name || q.customer_email}</div>
+          <div className="text-[11px] text-slate-400">{q.customer_email}</div>
         </div>
       ),
     },
     {
       header: 'Plan',
-      accessor: (q) => <span className="text-gray-700 text-xs font-medium">{q.plan_name}</span>,
+      accessor: (q) => <span className="text-slate-700 text-xs">{q.plan_name}</span>,
     },
     {
       header: 'Status',
@@ -140,28 +140,28 @@ export default function Quotations() {
     },
     {
       header: 'Valid Until',
-      accessor: (q) => <span className="text-xs text-gray-500">{q.valid_until}</span>,
+      accessor: (q) => <span className="text-xs text-slate-500">{q.valid_until}</span>,
     },
     {
       header: 'Total',
-      accessor: (q) => <span className="font-bold text-gray-900">${Number(q.total || 0).toFixed(2)}</span>,
+      accessor: (q) => <span className="font-semibold text-slate-900">${Number(q.total || 0).toFixed(2)}</span>,
     },
     {
       header: 'Actions',
       accessor: (q) => (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <button
             onClick={() => setSelectedQuotation(q)}
-            className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg text-xs flex items-center gap-1"
+            className="p-1 text-slate-500 hover:text-blue-700 hover:bg-slate-100 rounded text-xs flex items-center gap-1"
           >
-            <Eye className="w-4 h-4" /> View
+            <Eye className="w-3.5 h-3.5" /> View
           </button>
           {q.status !== 'accepted' && (
             <button
               onClick={() => handleAcceptQuotation(q.id)}
-              className="px-2 py-1 bg-green-50 text-green-700 hover:bg-green-100 rounded-lg text-xs font-medium flex items-center gap-1"
+              className="px-2 py-0.5 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 rounded text-xs font-medium border border-emerald-200 flex items-center gap-1"
             >
-              <CheckCircle className="w-3.5 h-3.5" /> Accept
+              <Check className="w-3 h-3" /> Accept
             </button>
           )}
         </div>
@@ -170,10 +170,10 @@ export default function Quotations() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <PageHeader
-        title="Sales Quotations"
-        description="Draft, distribute, and convert customized software quotes into recurring subscriptions"
+        title="Quotations"
+        description="Customer price quotes and subscription proposals"
         action={
           isStaff
             ? {
@@ -185,9 +185,9 @@ export default function Quotations() {
         }
       />
 
-      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-4">
+      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
         {loading ? (
-          <div className="py-20 flex justify-center">
+          <div className="py-12 flex justify-center">
             <LoadingSpinner size="lg" />
           </div>
         ) : (
@@ -195,32 +195,31 @@ export default function Quotations() {
         )}
       </div>
 
-      {/* Create Quotation Modal */}
-      <Modal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} title="Draft New Quotation">
-        <form onSubmit={handleCreateQuotation} className="space-y-4">
+      <Modal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} title="New Quotation">
+        <form onSubmit={handleCreateQuotation} className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <FormField label="Customer" required>
               <select
                 required
                 value={form.customer}
                 onChange={(e) => setForm({ ...form, customer: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
               >
                 <option value="">Select customer...</option>
                 {customers.map((c) => (
                   <option key={c.id} value={c.id}>
-                    {c.first_name ? `${c.first_name} ${c.last_name || ''}` : c.email} ({c.company_name || 'Individual'})
+                    {c.first_name ? `${c.first_name} ${c.last_name || ''}` : c.email}
                   </option>
                 ))}
               </select>
             </FormField>
 
-            <FormField label="Subscription Plan" required>
+            <FormField label="Plan" required>
               <select
                 required
                 value={form.plan}
                 onChange={(e) => setForm({ ...form, plan: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
               >
                 <option value="">Select plan...</option>
                 {plans.map((p) => (
@@ -238,27 +237,26 @@ export default function Quotations() {
               required
               value={form.valid_until}
               onChange={(e) => setForm({ ...form, valid_until: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
             />
           </FormField>
 
-          {/* Line Items */}
-          <div className="border rounded-xl p-3 bg-gray-50 space-y-3">
+          <div className="border border-slate-200 rounded p-2.5 bg-slate-50 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-gray-700">Quotation Line Items</span>
-              <button type="button" onClick={addLine} className="text-xs text-blue-600 font-medium hover:underline">
+              <span className="text-xs font-semibold text-slate-700">Line Items</span>
+              <button type="button" onClick={addLine} className="text-xs text-blue-700 font-medium hover:underline">
                 + Add Item
               </button>
             </div>
 
             {form.lines.map((line, idx) => (
-              <div key={idx} className="grid grid-cols-12 gap-2 items-center bg-white p-2 rounded-lg border border-gray-200">
+              <div key={idx} className="grid grid-cols-12 gap-2 items-center bg-white p-2 rounded border border-slate-200">
                 <div className="col-span-6">
                   <select
                     required
                     value={line.product}
                     onChange={(e) => handleLineProductChange(idx, e.target.value)}
-                    className="w-full px-2 py-1.5 border border-gray-200 rounded text-xs"
+                    className="w-full px-2 py-1 border border-slate-300 rounded text-xs outline-none"
                   >
                     <option value="">Select product...</option>
                     {products.map((prod) => (
@@ -274,16 +272,16 @@ export default function Quotations() {
                     min={1}
                     value={line.quantity}
                     onChange={(e) => handleLineQtyChange(idx, e.target.value)}
-                    className="w-full px-2 py-1.5 border border-gray-200 rounded text-xs"
+                    className="w-full px-2 py-1 border border-slate-300 rounded text-xs outline-none"
                     placeholder="Qty"
                   />
                 </div>
-                <div className="col-span-3 text-right text-xs font-semibold text-gray-700">
+                <div className="col-span-3 text-right text-xs font-semibold text-slate-700">
                   ${(line.unit_price * line.quantity).toFixed(2)}
                 </div>
                 <div className="col-span-1 text-right">
-                  <button type="button" onClick={() => removeLine(idx)} className="text-red-500 text-xs hover:text-red-700">
-                    ×
+                  <button type="button" onClick={() => removeLine(idx)} className="text-slate-400 hover:text-rose-600 text-xs">
+                    ✕
                   </button>
                 </div>
               </div>
@@ -295,84 +293,80 @@ export default function Quotations() {
               rows={2}
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
-              placeholder="Terms, validity clauses, add-on terms..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none"
+              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none"
             />
           </FormField>
 
-          <div className="flex justify-end gap-2 pt-4 border-t border-gray-100">
+          <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
             <button
               type="button"
               onClick={() => setIsCreateModalOpen(false)}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50"
+              className="px-3 py-1.5 border border-slate-300 rounded text-xs text-slate-700 hover:bg-slate-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
+              className="px-3 py-1.5 bg-blue-700 text-white rounded text-xs font-medium hover:bg-blue-800 disabled:opacity-50"
             >
-              {submitting ? 'Creating...' : 'Create Quotation'}
+              {submitting ? 'Saving...' : 'Save'}
             </button>
           </div>
         </form>
       </Modal>
 
-      {/* Quotation Detail Modal */}
       {selectedQuotation && (
         <Modal
           isOpen={true}
           onClose={() => setSelectedQuotation(null)}
           title={`Quotation ${selectedQuotation.quotation_number}`}
         >
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4 text-xs bg-gray-50 p-3 rounded-xl border border-gray-200">
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-2.5 rounded border border-slate-200">
               <div>
-                <span className="text-gray-400 block">Customer:</span>
-                <span className="font-semibold text-gray-800">{selectedQuotation.customer_name || selectedQuotation.customer_email}</span>
+                <span className="text-slate-400 block text-[11px]">Customer</span>
+                <span className="font-semibold text-slate-800">{selectedQuotation.customer_name || selectedQuotation.customer_email}</span>
               </div>
               <div>
-                <span className="text-gray-400 block">Plan:</span>
-                <span className="font-semibold text-gray-800">{selectedQuotation.plan_name}</span>
+                <span className="text-slate-400 block text-[11px]">Plan</span>
+                <span className="font-semibold text-slate-800">{selectedQuotation.plan_name}</span>
               </div>
               <div>
-                <span className="text-gray-400 block">Valid Until:</span>
-                <span className="font-semibold text-gray-800">{selectedQuotation.valid_until}</span>
+                <span className="text-slate-400 block text-[11px]">Valid Until</span>
+                <span className="font-semibold text-slate-800">{selectedQuotation.valid_until}</span>
               </div>
               <div>
-                <span className="text-gray-400 block">Status:</span>
+                <span className="text-slate-400 block text-[11px]">Status</span>
                 <StatusBadge status={selectedQuotation.status} />
               </div>
             </div>
 
             <div>
-              <h4 className="text-xs font-semibold text-gray-700 mb-2">Quotation Lines:</h4>
-              <div className="border rounded-xl divide-y text-xs">
+              <h4 className="text-xs font-semibold text-slate-700 mb-1.5">Line Items:</h4>
+              <div className="border border-slate-200 rounded divide-y text-xs">
                 {selectedQuotation.lines?.map((line) => (
-                  <div key={line.id} className="p-2.5 flex justify-between items-center">
+                  <div key={line.id} className="p-2 flex justify-between items-center">
                     <div>
-                      <p className="font-medium text-gray-800">{line.product_name}</p>
-                      <p className="text-gray-400 text-[11px]">
-                        Qty: {line.quantity} × ${line.unit_price}
-                      </p>
+                      <p className="font-medium text-slate-800">{line.product_name}</p>
+                      <p className="text-slate-400 text-[11px]">Qty: {line.quantity} × ${line.unit_price}</p>
                     </div>
-                    <span className="font-semibold text-gray-900">${line.line_total}</span>
+                    <span className="font-semibold text-slate-900">${line.line_total}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="text-right space-y-1 text-xs border-t pt-3">
-              <div className="flex justify-between text-gray-600">
+            <div className="text-right space-y-1 text-xs border-t border-slate-200 pt-2">
+              <div className="flex justify-between text-slate-600">
                 <span>Subtotal:</span>
                 <span>${selectedQuotation.subtotal}</span>
               </div>
-              <div className="flex justify-between text-gray-600">
-                <span>Estimated Tax:</span>
+              <div className="flex justify-between text-slate-600">
+                <span>Tax:</span>
                 <span>${selectedQuotation.tax_total}</span>
               </div>
-              <div className="flex justify-between font-bold text-gray-900 text-sm border-t pt-1">
+              <div className="flex justify-between font-bold text-slate-900 text-sm border-t border-slate-100 pt-1">
                 <span>Total:</span>
                 <span>${selectedQuotation.total}</span>
               </div>
@@ -382,9 +376,9 @@ export default function Quotations() {
               <div className="pt-2">
                 <button
                   onClick={() => handleAcceptQuotation(selectedQuotation.id)}
-                  className="w-full py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2"
+                  className="w-full py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded text-xs font-semibold flex items-center justify-center gap-1.5"
                 >
-                  <CheckCircle className="w-4 h-4" /> Accept Quotation & Generate Subscription
+                  <Check className="w-3.5 h-3.5" /> Accept Quotation
                 </button>
               </div>
             )}

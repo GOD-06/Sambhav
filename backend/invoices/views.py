@@ -140,3 +140,4 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             'skipped_count': skipped_count,
             'invoices': created_invoices,
         })
+

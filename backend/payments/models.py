@@ -50,3 +50,4 @@ class Payment(models.Model):
         if total_paid >= invoice.total and invoice.status != 'paid':
             invoice.status = 'paid'
             invoice.save(update_fields=['status'])
+

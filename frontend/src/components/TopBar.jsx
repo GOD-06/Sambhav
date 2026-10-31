@@ -1,4 +1,4 @@
-import { Menu, Bell, User } from 'lucide-react';
+import { Menu, Bell } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function TopBar({ onMenuClick }) {
@@ -12,36 +12,29 @@ export default function TopBar({ onMenuClick }) {
   };
 
   return (
-    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-10">
-      <div className="flex items-center gap-4">
+    <header className="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-10">
+      <div className="flex items-center gap-3">
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg"
+          className="lg:hidden p-1.5 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded"
         >
           <Menu className="w-5 h-5" />
         </button>
-        <div className="hidden sm:block text-sm text-gray-500">
-          Welcome back, <span className="font-semibold text-gray-800">{user?.first_name || user?.email}</span>
-        </div>
+        <span className="text-sm text-slate-600">
+          Signed in as <span className="font-semibold text-slate-900">{user?.email}</span>
+        </span>
       </div>
 
-      <div className="flex items-center gap-4">
-        <div className="relative">
-          <button className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 relative">
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-600 rounded-full" />
-          </button>
-        </div>
-
-        <div className="flex items-center gap-3 pl-2 border-l border-gray-200">
-          <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-sm font-semibold">
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 pl-3 border-l border-slate-200">
+          <div className="w-7 h-7 rounded bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center text-xs font-semibold">
             {getInitials(user)}
           </div>
-          <div className="hidden md:block text-left">
-            <p className="text-sm font-medium text-gray-700 leading-none">
+          <div className="hidden sm:block text-left leading-none">
+            <span className="text-xs font-medium text-slate-800 block">
               {user?.first_name ? `${user.first_name} ${user.last_name || ''}` : user?.email}
-            </p>
-            <p className="text-xs text-gray-400 capitalize mt-1">{user?.role || 'Customer'}</p>
+            </span>
+            <span className="text-[10px] text-slate-400 capitalize">{user?.role || 'Customer'}</span>
           </div>
         </div>
       </div>

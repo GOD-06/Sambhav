@@ -91,3 +91,4 @@ class DashboardStatsView(APIView):
             'recent_invoices': recent_invoices,
             'revenue_chart': monthly_data,
         })
+

@@ -1,14 +1,13 @@
-export default function FormField({ label, error, children, required = false, className = '' }) {
+export default function FormField({ label, required, help, children }) {
   return (
-    <div className={`space-y-1 ${className}`}>
+    <div>
       {label && (
-        <label className="block text-sm font-medium text-gray-700">
-          {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+        <label className="block text-xs font-semibold text-slate-700 mb-1">
+          {label} {required && <span className="text-rose-600">*</span>}
         </label>
       )}
       {children}
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {help && <p className="text-[11px] text-slate-400 mt-1">{help}</p>}
     </div>
   );
 }

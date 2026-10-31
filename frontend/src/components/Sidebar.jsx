@@ -8,21 +8,20 @@ import {
   FileText,
   Receipt,
   CreditCard,
-  Tag,
   Percent,
   UserCog,
   Settings,
   LogOut,
   X,
   Repeat,
-  ShoppingBag,
   FileBarChart,
   User,
-  Zap,
+  Wallet,
 } from 'lucide-react';
 
 const adminLinks = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/finance-bento', icon: Wallet, label: 'Finance Bento' },
   { to: '/customers', icon: Users, label: 'Customers' },
   { to: '/products', icon: Package, label: 'Products' },
   { to: '/plans', icon: ClipboardList, label: 'Plans' },
@@ -52,7 +51,7 @@ const customerLinks = [
   { to: '/my-subscriptions', icon: Repeat, label: 'My Subscriptions' },
   { to: '/my-invoices', icon: FileText, label: 'My Invoices' },
   { to: '/my-payments', icon: CreditCard, label: 'My Payments' },
-  { to: '/settings', icon: User, label: 'My Profile' },
+  { to: '/settings', icon: User, label: 'Profile' },
 ];
 
 export default function Sidebar({ onClose }) {
@@ -74,58 +73,55 @@ export default function Sidebar({ onClose }) {
   };
 
   return (
-    <div className="flex flex-col h-full w-64 bg-gray-900 text-white">
-      {/* Logo */}
-      <div className="flex items-center justify-between px-6 py-5 border-b border-gray-800">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <Zap className="w-5 h-5 text-white" />
+    <div className="flex flex-col h-full w-64 bg-slate-900 text-slate-100 border-r border-slate-800">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 bg-blue-700 rounded flex items-center justify-center font-bold text-sm text-white">
+            B
           </div>
-          <span className="text-xl font-bold">Brightloop</span>
+          <span className="font-semibold text-slate-100 tracking-tight">Brightloop</span>
         </div>
-        <button onClick={onClose} className="lg:hidden p-1 hover:bg-gray-800 rounded">
-          <X className="w-5 h-5" />
+        <button onClick={onClose} className="lg:hidden p-1 hover:bg-slate-800 rounded">
+          <X className="w-5 h-5 text-slate-400" />
         </button>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto py-4 px-3">
-        <div className="space-y-1">
+      <nav className="flex-1 overflow-y-auto py-3 px-3">
+        <div className="space-y-0.5">
           {links.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               onClick={onClose}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                `flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition ${
                   isActive
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                    ? 'bg-blue-700 text-white'
+                    : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
                 }`
               }
             >
-              <link.icon className="w-5 h-5 shrink-0" />
+              <link.icon className="w-4 h-4 shrink-0" />
               {link.label}
             </NavLink>
           ))}
         </div>
       </nav>
 
-      {/* User info */}
-      <div className="border-t border-gray-800 p-4">
+      <div className="border-t border-slate-800 p-3">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-blue-600 rounded-full flex items-center justify-center text-sm font-medium">
+          <div className="w-8 h-8 bg-slate-800 rounded text-slate-200 flex items-center justify-center text-xs font-semibold">
             {getInitials(user)}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate">
-              {user?.first_name} {user?.last_name}
+            <p className="text-xs font-medium text-slate-200 truncate">
+              {user?.first_name ? `${user.first_name} ${user.last_name || ''}` : user?.email}
             </p>
-            <p className="text-xs text-gray-400 truncate">{user?.email}</p>
+            <p className="text-[11px] text-slate-400 capitalize">{user?.role || 'Customer'}</p>
           </div>
           <button
             onClick={handleLogout}
-            className="p-1.5 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
+            className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded"
             title="Logout"
           >
             <LogOut className="w-4 h-4" />

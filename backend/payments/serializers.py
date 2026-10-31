@@ -17,3 +17,4 @@ class PaymentSerializer(serializers.ModelSerializer):
             'note', 'created_by', 'recorded_by_email', 'created_at'
         ]
         read_only_fields = ['id', 'created_by', 'created_at']
+

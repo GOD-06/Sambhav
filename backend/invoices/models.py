@@ -125,3 +125,4 @@ class InvoiceLine(models.Model):
         self.tax_amount = (discounted * self.tax_rate) / Decimal('100')
         self.line_total = discounted + self.tax_amount
         super().save(*args, **kwargs)
+

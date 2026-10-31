@@ -3,7 +3,6 @@ import paymentService from '../services/paymentService';
 import PageHeader from '../components/PageHeader';
 import DataTable from '../components/DataTable';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { CreditCard, Calendar, CheckCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function MyPayments() {
@@ -14,56 +13,51 @@ export default function MyPayments() {
     paymentService
       .getAll()
       .then((data) => setPayments(data.results || data))
-      .catch(() => toast.error('Failed to load your payment records.'))
+      .catch(() => toast.error('Failed to load payments.'))
       .finally(() => setLoading(false));
   }, []);
 
   const columns = [
     {
       header: 'Invoice #',
-      accessor: (p) => <span className="font-semibold text-blue-600">{p.invoice_number}</span>,
+      accessor: (p) => <span className="font-semibold text-blue-700">{p.invoice_number}</span>,
     },
     {
-      header: 'Payment Date',
+      header: 'Date',
+      accessor: (p) => <span className="text-xs text-slate-700">{p.payment_date}</span>,
+    },
+    {
+      header: 'Amount',
+      accessor: (p) => <span className="font-semibold text-emerald-800">${Number(p.amount).toFixed(2)}</span>,
+    },
+    {
+      header: 'Method',
       accessor: (p) => (
-        <span className="text-xs text-gray-700 flex items-center gap-1">
-          <Calendar className="w-3.5 h-3.5 text-gray-400" />
-          {p.payment_date}
-        </span>
-      ),
-    },
-    {
-      header: 'Amount Paid',
-      accessor: (p) => <span className="font-bold text-green-700">${Number(p.amount).toFixed(2)}</span>,
-    },
-    {
-      header: 'Payment Method',
-      accessor: (p) => (
-        <span className="capitalize px-2.5 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">
+        <span className="capitalize px-2 py-0.5 text-xs rounded bg-slate-100 text-slate-700 font-medium">
           {p.payment_method_display || p.payment_method.replace('_', ' ')}
         </span>
       ),
     },
     {
-      header: 'Note / Ref',
-      accessor: (p) => <span className="text-xs text-gray-500">{p.note || '—'}</span>,
+      header: 'Reference',
+      accessor: (p) => <span className="text-xs text-slate-500">{p.note || 'N/A'}</span>,
     },
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <PageHeader
-        title="My Payment History"
-        description="Verify recorded payments, wire transfers, and receipts credited to your account"
+        title="My Payments"
+        description="Payment history and credited transactions"
       />
 
-      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-4">
+      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
         {loading ? (
-          <div className="py-20 flex justify-center">
+          <div className="py-12 flex justify-center">
             <LoadingSpinner size="lg" />
           </div>
         ) : (
-          <DataTable columns={columns} data={payments} emptyMessage="No payment records found on your account." />
+          <DataTable columns={columns} data={payments} emptyMessage="No payment records found." />
         )}
       </div>
     </div>

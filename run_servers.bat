@@ -18,3 +18,4 @@ echo Frontend will be accessible at: http://localhost:5173
 echo Backend API will be accessible at: http://localhost:8000/api/v1/
 echo.
 pause
+

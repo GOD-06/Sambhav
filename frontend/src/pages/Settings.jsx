@@ -3,7 +3,6 @@ import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import PageHeader from '../components/PageHeader';
 import FormField from '../components/FormField';
-import { User, Lock, Building, Phone, Mail, ShieldCheck } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function Settings() {
@@ -31,7 +30,7 @@ export default function Settings() {
     try {
       const res = await api.patch('accounts/profile/', profileForm);
       updateUser(res.data);
-      toast.success('Profile updated successfully.');
+      toast.success('Profile updated.');
     } catch (err) {
       toast.error('Failed to update profile.');
     } finally {
@@ -51,10 +50,10 @@ export default function Settings() {
         old_password: passwordForm.old_password,
         new_password: passwordForm.new_password,
       });
-      toast.success('Password changed successfully.');
+      toast.success('Password updated.');
       setPasswordForm({ old_password: '', new_password: '', confirm_password: '' });
     } catch (err) {
-      const msg = err.response?.data?.old_password?.[0] || err.response?.data?.new_password?.[0] || 'Password change failed.';
+      const msg = err.response?.data?.old_password?.[0] || err.response?.data?.new_password?.[0] || 'Password update failed.';
       toast.error(msg);
     } finally {
       setSavingPassword(false);
@@ -62,26 +61,23 @@ export default function Settings() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="space-y-4 max-w-3xl">
       <PageHeader
-        title="Account Settings"
-        description="Manage your profile information and account security credentials"
+        title="Settings"
+        description="Profile details and password credentials"
       />
 
-      {/* Profile Overview Card */}
-      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-6">
-        <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <User className="w-5 h-5 text-blue-600" /> Personal Details
-        </h3>
+      <div className="bg-white rounded-lg border border-slate-200 p-5 shadow-sm">
+        <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Profile</h3>
 
-        <form onSubmit={handleUpdateProfile} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <form onSubmit={handleUpdateProfile} className="space-y-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <FormField label="First Name">
               <input
                 type="text"
                 value={profileForm.first_name}
                 onChange={(e) => setProfileForm({ ...profileForm, first_name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
               />
             </FormField>
 
@@ -90,47 +86,47 @@ export default function Settings() {
                 type="text"
                 value={profileForm.last_name}
                 onChange={(e) => setProfileForm({ ...profileForm, last_name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
               />
             </FormField>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <FormField label="Email Address" help="Contact admin to modify login email">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <FormField label="Email">
               <input
                 type="email"
                 disabled
                 value={user?.email || ''}
-                className="w-full px-3 py-2 border border-gray-200 bg-gray-50 rounded-lg text-sm text-gray-500 cursor-not-allowed"
+                className="w-full px-2.5 py-1.5 border border-slate-200 bg-slate-50 rounded text-xs text-slate-500 cursor-not-allowed"
               />
             </FormField>
 
-            <FormField label="Role Privilege">
-              <div className="flex items-center gap-2 px-3 py-2 bg-blue-50/50 rounded-lg border border-blue-100 text-blue-700 text-sm font-semibold capitalize">
-                <ShieldCheck className="w-4 h-4" />
-                {user?.role || 'Customer'}
-              </div>
+            <FormField label="Role">
+              <input
+                type="text"
+                disabled
+                value={user?.role || 'Customer'}
+                className="w-full px-2.5 py-1.5 border border-slate-200 bg-slate-50 rounded text-xs text-slate-500 capitalize cursor-not-allowed"
+              />
             </FormField>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <FormField label="Company Name">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <FormField label="Company">
               <input
                 type="text"
                 value={profileForm.company_name}
                 onChange={(e) => setProfileForm({ ...profileForm, company_name: e.target.value })}
-                placeholder="Acme Corp"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
               />
             </FormField>
 
-            <FormField label="Phone Number">
+            <FormField label="Phone">
               <input
                 type="text"
                 value={profileForm.phone}
                 onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
-                placeholder="+1 (555) 000-0000"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
               />
             </FormField>
           </div>
@@ -139,49 +135,46 @@ export default function Settings() {
             <button
               type="submit"
               disabled={savingProfile}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
+              className="px-3 py-1.5 bg-blue-700 text-white rounded text-xs font-medium hover:bg-blue-800 disabled:opacity-50"
             >
-              {savingProfile ? 'Saving...' : 'Save Profile Changes'}
+              {savingProfile ? 'Saving...' : 'Save Profile'}
             </button>
           </div>
         </form>
       </div>
 
-      {/* Security Card */}
-      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-6">
-        <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <Lock className="w-5 h-5 text-blue-600" /> Security & Password
-        </h3>
+      <div className="bg-white rounded-lg border border-slate-200 p-5 shadow-sm">
+        <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Security</h3>
 
-        <form onSubmit={handleChangePassword} className="space-y-4">
+        <form onSubmit={handleChangePassword} className="space-y-3">
           <FormField label="Current Password" required>
             <input
               type="password"
               required
               value={passwordForm.old_password}
               onChange={(e) => setPasswordForm({ ...passwordForm, old_password: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
             />
           </FormField>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <FormField label="New Password" required help="At least 8 characters">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <FormField label="New Password" required help="Minimum 8 characters">
               <input
                 type="password"
                 required
                 value={passwordForm.new_password}
                 onChange={(e) => setPasswordForm({ ...passwordForm, new_password: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
               />
             </FormField>
 
-            <FormField label="Confirm New Password" required>
+            <FormField label="Confirm Password" required>
               <input
                 type="password"
                 required
                 value={passwordForm.confirm_password}
                 onChange={(e) => setPasswordForm({ ...passwordForm, confirm_password: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
               />
             </FormField>
           </div>
@@ -190,9 +183,9 @@ export default function Settings() {
             <button
               type="submit"
               disabled={savingPassword}
-              className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-black disabled:opacity-50"
+              className="px-3 py-1.5 bg-slate-900 text-white rounded text-xs font-medium hover:bg-black disabled:opacity-50"
             >
-              {savingPassword ? 'Updating...' : 'Update Password'}
+              {savingPassword ? 'Updating...' : 'Change Password'}
             </button>
           </div>
         </form>

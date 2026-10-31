@@ -91,3 +91,4 @@ Our application manages the entire business process around those subscriptions:
 - [x] Outstanding amount still owed.
 - [x] Overdue invoices list.
 - [x] Visual revenue growth trend chart.
+

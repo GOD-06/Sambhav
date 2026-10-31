@@ -18,6 +18,7 @@ import Discounts from './pages/Discounts';
 import TaxRules from './pages/TaxRules';
 import Staff from './pages/Staff';
 import Settings from './pages/Settings';
+import FinanceBento from './pages/FinanceBento';
 
 // Customer Portal Pages
 import MySubscriptions from './pages/MySubscriptions';
@@ -176,6 +177,14 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/finance-bento"
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <FinanceBento />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Customer Portal Routes */}
       <Route
@@ -231,3 +240,4 @@ export default function App() {
     </Routes>
   );
 }
+

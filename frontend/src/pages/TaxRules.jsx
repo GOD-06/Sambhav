@@ -6,7 +6,7 @@ import Modal from '../components/Modal';
 import FormField from '../components/FormField';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAuth } from '../context/AuthContext';
-import { Receipt, Plus, Percent } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function TaxRules() {
@@ -58,31 +58,35 @@ export default function TaxRules() {
   const columns = [
     {
       header: 'Tax Name',
-      accessor: (t) => <span className="font-semibold text-gray-900">{t.name}</span>,
+      accessor: (t) => <span className="font-semibold text-slate-900">{t.name}</span>,
     },
     {
-      header: 'Tax Rate (%)',
-      accessor: (t) => <span className="font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg text-xs">{t.rate}%</span>,
+      header: 'Rate (%)',
+      accessor: (t) => (
+        <span className="font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded text-xs border border-blue-200">
+          {t.rate}%
+        </span>
+      ),
     },
     {
       header: 'Status',
       accessor: (t) => (
-        <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${t.is_active ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+        <span className={`px-2 py-0.5 text-xs rounded font-medium border ${t.is_active ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
           {t.is_active ? 'Active' : 'Inactive'}
         </span>
       ),
     },
     {
-      header: 'Configured On',
-      accessor: (t) => <span className="text-xs text-gray-400">{t.created_at ? new Date(t.created_at).toLocaleDateString() : '—'}</span>,
+      header: 'Created Date',
+      accessor: (t) => <span className="text-xs text-slate-500">{t.created_at ? new Date(t.created_at).toLocaleDateString() : 'N/A'}</span>,
     },
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <PageHeader
-        title="Tax Configuration"
-        description="Administer regional VAT, Sales Tax, and GST calculation rules"
+        title="Tax Rules"
+        description="Tax percentages applied to invoice line items"
         action={
           isAdmin
             ? {
@@ -94,9 +98,9 @@ export default function TaxRules() {
         }
       />
 
-      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-4">
+      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
         {loading ? (
-          <div className="py-20 flex justify-center">
+          <div className="py-12 flex justify-center">
             <LoadingSpinner size="lg" />
           </div>
         ) : (
@@ -105,54 +109,52 @@ export default function TaxRules() {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Add Tax Rule">
-        <form onSubmit={handleCreateTaxRule} className="space-y-4">
+        <form onSubmit={handleCreateTaxRule} className="space-y-3">
           <FormField label="Tax Name" required>
             <input
               type="text"
               required
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              placeholder="e.g. Standard VAT (20%)"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
             />
           </FormField>
 
-          <FormField label="Rate Percentage (%)" required help="Enter e.g. 20.00 for 20%">
+          <FormField label="Rate (%)" required help="e.g. 20.00 for 20%">
             <input
               type="number"
               step="0.01"
               required
               value={form.rate}
               onChange={(e) => setForm({ ...form, rate: e.target.value })}
-              placeholder="20.00"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
             />
           </FormField>
 
-          <label className="flex items-center gap-2 cursor-pointer text-xs text-gray-700">
+          <label className="flex items-center gap-2 cursor-pointer text-xs text-slate-700">
             <input
               type="checkbox"
               checked={form.is_active}
               onChange={(e) => setForm({ ...form, is_active: e.target.checked })}
-              className="rounded text-blue-600"
+              className="rounded"
             />
-            <span>Active rule (applied during quotation and invoice calculation)</span>
+            <span>Active</span>
           </label>
 
-          <div className="flex justify-end gap-2 pt-4 border-t border-gray-100">
+          <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50"
+              className="px-3 py-1.5 border border-slate-300 rounded text-xs text-slate-700 hover:bg-slate-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
+              className="px-3 py-1.5 bg-blue-700 text-white rounded text-xs font-medium hover:bg-blue-800 disabled:opacity-50"
             >
-              {submitting ? 'Saving...' : 'Save Tax Rule'}
+              {submitting ? 'Saving...' : 'Save'}
             </button>
           </div>
         </form>

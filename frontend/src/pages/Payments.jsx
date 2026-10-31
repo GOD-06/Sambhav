@@ -7,7 +7,7 @@ import Modal from '../components/Modal';
 import FormField from '../components/FormField';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAuth } from '../context/AuthContext';
-import { CreditCard, Plus, Calendar, DollarSign, FileText } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function Payments() {
@@ -61,7 +61,7 @@ export default function Payments() {
     setSubmitting(true);
     try {
       await paymentService.create(form);
-      toast.success('Payment recorded successfully.');
+      toast.success('Payment recorded.');
       setIsModalOpen(false);
       setForm({ invoice: '', amount: '', payment_method: 'bank_transfer', payment_date: new Date().toISOString().split('T')[0], note: '' });
       loadData();
@@ -75,49 +75,44 @@ export default function Payments() {
   const columns = [
     {
       header: 'Invoice #',
-      accessor: (p) => <span className="font-semibold text-blue-600">{p.invoice_number}</span>,
+      accessor: (p) => <span className="font-semibold text-blue-700">{p.invoice_number}</span>,
     },
     {
       header: 'Customer',
       accessor: (p) => (
         <div>
-          <div className="font-medium text-gray-900">{p.customer_name || p.customer_email}</div>
-          <div className="text-xs text-gray-400">{p.customer_email}</div>
+          <div className="font-medium text-slate-900">{p.customer_name || p.customer_email}</div>
+          <div className="text-[11px] text-slate-400">{p.customer_email}</div>
         </div>
       ),
     },
     {
       header: 'Amount',
-      accessor: (p) => <span className="font-bold text-green-700">${Number(p.amount).toFixed(2)}</span>,
+      accessor: (p) => <span className="font-semibold text-emerald-800">${Number(p.amount).toFixed(2)}</span>,
     },
     {
       header: 'Method',
       accessor: (p) => (
-        <span className="capitalize px-2.5 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">
+        <span className="capitalize px-2 py-0.5 text-xs rounded bg-slate-100 text-slate-700 font-medium">
           {p.payment_method_display || p.payment_method.replace('_', ' ')}
         </span>
       ),
     },
     {
       header: 'Date',
-      accessor: (p) => (
-        <span className="text-xs text-gray-500 flex items-center gap-1">
-          <Calendar className="w-3.5 h-3.5 text-gray-400" />
-          {p.payment_date}
-        </span>
-      ),
+      accessor: (p) => <span className="text-xs text-slate-600">{p.payment_date}</span>,
     },
     {
-      header: 'Note / Ref',
-      accessor: (p) => <span className="text-xs text-gray-500">{p.note || '—'}</span>,
+      header: 'Note',
+      accessor: (p) => <span className="text-xs text-slate-500">{p.note || 'N/A'}</span>,
     },
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <PageHeader
-        title="Payment History & Reconciliation"
-        description="View matched transactions, payment receipts, and balance reconciliations"
+        title="Payments"
+        description="Recorded transactions and settlement receipts"
         action={
           isStaff
             ? {
@@ -129,9 +124,9 @@ export default function Payments() {
         }
       />
 
-      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-4">
+      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
         {loading ? (
-          <div className="py-20 flex justify-center">
+          <div className="py-12 flex justify-center">
             <LoadingSpinner size="lg" />
           </div>
         ) : (
@@ -139,16 +134,16 @@ export default function Payments() {
         )}
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Record New Payment">
-        <form onSubmit={handleRecordPayment} className="space-y-4">
-          <FormField label="Target Invoice" required>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Record Payment">
+        <form onSubmit={handleRecordPayment} className="space-y-3">
+          <FormField label="Invoice" required>
             <select
               required
               value={form.invoice}
               onChange={(e) => handleInvoiceSelect(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
             >
-              <option value="">Select outstanding invoice...</option>
+              <option value="">Select invoice...</option>
               {invoices.map((inv) => (
                 <option key={inv.id} value={inv.id}>
                   {inv.invoice_number} - {inv.customer_name || inv.customer_email} (Due: ${Number(inv.outstanding_amount || inv.total).toFixed(2)})
@@ -165,15 +160,15 @@ export default function Payments() {
                 required
                 value={form.amount}
                 onChange={(e) => setForm({ ...form, amount: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
               />
             </FormField>
 
-            <FormField label="Payment Method" required>
+            <FormField label="Method" required>
               <select
                 value={form.payment_method}
                 onChange={(e) => setForm({ ...form, payment_method: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
               >
                 <option value="bank_transfer">Bank Transfer</option>
                 <option value="credit_card">Credit Card</option>
@@ -190,34 +185,33 @@ export default function Payments() {
               required
               value={form.payment_date}
               onChange={(e) => setForm({ ...form, payment_date: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
             />
           </FormField>
 
-          <FormField label="Note / Reference">
+          <FormField label="Note">
             <input
               type="text"
               value={form.note}
               onChange={(e) => setForm({ ...form, note: e.target.value })}
-              placeholder="e.g. Wire transfer ref WT-9012"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm outline-none"
+              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
             />
           </FormField>
 
-          <div className="flex justify-end gap-2 pt-4 border-t border-gray-100">
+          <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50"
+              className="px-3 py-1.5 border border-slate-300 rounded text-xs text-slate-700 hover:bg-slate-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 disabled:opacity-50"
+              className="px-3 py-1.5 bg-emerald-700 text-white rounded text-xs font-medium hover:bg-emerald-800 disabled:opacity-50"
             >
-              {submitting ? 'Recording...' : 'Record Payment'}
+              {submitting ? 'Saving...' : 'Save Payment'}
             </button>
           </div>
         </form>

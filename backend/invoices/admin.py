@@ -20,3 +20,4 @@ class InvoiceAdmin(admin.ModelAdmin):
     list_filter = ('status', 'issue_date')
     search_fields = ('invoice_number', 'customer__email')
     inlines = [InvoiceLineInline]
+

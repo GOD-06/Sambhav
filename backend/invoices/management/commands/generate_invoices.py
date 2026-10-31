@@ -68,3 +68,4 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(
             f"Billing completed: {generated} invoices created, {skipped} skipped."
         ))
+

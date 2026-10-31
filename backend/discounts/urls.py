@@ -8,3 +8,4 @@ router.register(r'discounts', DiscountRuleViewSet, basename='discount')
 urlpatterns = [
     path('', include(router.urls)),
 ]
+

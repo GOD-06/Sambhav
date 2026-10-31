@@ -25,3 +25,4 @@ class DiscountRuleSerializer(serializers.ModelSerializer):
 
     def get_applicable_product_names(self, obj):
         return [p.name for p in obj.applicable_products.all()]
+

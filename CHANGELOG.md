@@ -31,3 +31,4 @@ Deliver a complete, production-grade Subscription Management System covering the
 - `seed_data` command executed and verified.
 - `generate_invoices` command executed and successfully produced recurring billing with duplicate checks.
 - Frontend production build (`npm run build`) compiled cleanly in 7.53s with 0 errors.
+
