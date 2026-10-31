@@ -40,6 +40,32 @@ export default function Customers() {
     loadCustomers();
   }, []);
 
+  const handleOpenSubscribe = (customer) => {
+    setSubscribingCustomer(customer);
+    setSubscribeModalOpen(true);
+  };
+
+  const handleAssignSubscription = async (e) => {
+    e.preventDefault();
+    if (!subscribingCustomer || !selectedPlanId) return;
+    setSubscribing(true);
+    try {
+      await api.post('subscriptions/subscribe/', {
+        customer_id: subscribingCustomer.id,
+        plan_id: selectedPlanId,
+        payment_method: 'credit_card',
+        note: `Admin subscription assignment for ${subscribingCustomer.email}`,
+      });
+      toast.success(`Subscribed ${subscribingCustomer.first_name || subscribingCustomer.email} successfully.`);
+      setSubscribeModalOpen(false);
+    } catch (err) {
+      const msg = err.response?.data?.error || 'Subscription assignment failed.';
+      toast.error(msg);
+    } finally {
+      setSubscribing(false);
+    }
+  };
+
   const handleCreateCustomer = async (e) => {
     e.preventDefault();
     setCreating(true);
@@ -71,27 +97,27 @@ export default function Customers() {
     {
       header: 'Name',
       accessor: (c) => (
-        <span className="font-medium text-slate-900">
+        <span className="font-medium text-white">
           {c.first_name ? `${c.first_name} ${c.last_name || ''}` : c.email}
         </span>
       ),
     },
     {
       header: 'Email',
-      accessor: (c) => <span className="text-slate-600">{c.email}</span>,
+      accessor: (c) => <span className="text-white/70 font-mono">{c.email}</span>,
     },
     {
       header: 'Company',
-      accessor: (c) => <span className="text-slate-600">{c.company_name || 'Individual'}</span>,
+      accessor: (c) => <span className="text-white/70">{c.company_name || 'Individual'}</span>,
     },
     {
       header: 'Phone',
-      accessor: (c) => <span className="text-slate-500">{c.phone || 'N/A'}</span>,
+      accessor: (c) => <span className="text-white/50 font-mono">{c.phone || 'N/A'}</span>,
     },
     {
       header: 'Date Joined',
       accessor: (c) => (
-        <span className="text-slate-500">
+        <span className="text-white/50 font-mono">
           {c.created_at ? new Date(c.created_at).toLocaleDateString() : 'N/A'}
         </span>
       ),
@@ -110,15 +136,15 @@ export default function Customers() {
         }}
       />
 
-      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
-        <div className="relative mb-3 max-w-sm">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+      <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] p-5">
+        <div className="relative mb-4 max-w-sm">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search customers..."
-            className="w-full pl-9 pr-3 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+            className="w-full pl-9 pr-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
           />
         </div>
 
@@ -140,7 +166,7 @@ export default function Customers() {
                 required
                 value={formData.first_name}
                 onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               />
             </FormField>
             <FormField label="Last Name">
@@ -148,7 +174,7 @@ export default function Customers() {
                 type="text"
                 value={formData.last_name}
                 onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               />
             </FormField>
           </div>
@@ -159,7 +185,7 @@ export default function Customers() {
               required
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+              className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
             />
           </FormField>
 
@@ -169,7 +195,7 @@ export default function Customers() {
                 type="text"
                 value={formData.company_name}
                 onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               />
             </FormField>
             <FormField label="Phone">
@@ -177,7 +203,7 @@ export default function Customers() {
                 type="text"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               />
             </FormField>
           </div>
@@ -188,22 +214,22 @@ export default function Customers() {
               required
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+              className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
             />
           </FormField>
 
-          <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+          <div className="flex justify-end gap-2 pt-4 border-t border-white/[0.08]">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="px-3 py-1.5 border border-slate-300 rounded text-xs text-slate-700 hover:bg-slate-50"
+              className="px-3.5 py-1.5 border border-white/[0.12] bg-white/[0.06] rounded-lg text-xs text-white/70 hover:bg-white/[0.1] hover:text-white transition cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={creating}
-              className="px-3 py-1.5 bg-blue-700 text-white rounded text-xs font-medium hover:bg-blue-800 disabled:opacity-50"
+              className="px-3.5 py-1.5 bg-[#E8FF1F] hover:bg-[#d8ed17] text-black rounded-lg text-xs font-semibold disabled:opacity-50 transition cursor-pointer"
             >
               {creating ? 'Saving...' : 'Save'}
             </button>

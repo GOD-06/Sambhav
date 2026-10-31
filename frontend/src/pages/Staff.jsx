@@ -59,19 +59,19 @@ export default function Staff() {
     {
       header: 'Staff Member',
       accessor: (s) => (
-        <span className="font-semibold text-slate-900">
+        <span className="font-semibold text-white">
           {s.first_name ? `${s.first_name} ${s.last_name || ''}` : s.email}
         </span>
       ),
     },
     {
       header: 'Email',
-      accessor: (s) => <span className="text-slate-600">{s.email}</span>,
+      accessor: (s) => <span className="text-white/70 font-mono">{s.email}</span>,
     },
     {
       header: 'Role',
       accessor: (s) => (
-        <span className={`px-2 py-0.5 text-xs rounded font-medium capitalize border ${s.role === 'admin' ? 'bg-purple-50 text-purple-800 border-purple-200' : 'bg-blue-50 text-blue-800 border-blue-200'}`}>
+        <span className={`px-2 py-0.5 text-xs rounded-md font-mono font-medium capitalize border ${s.role === 'admin' ? 'bg-purple-500/10 text-purple-400 border-purple-500/30' : 'bg-sky-500/10 text-sky-400 border-sky-500/30'}`}>
           {s.role}
         </span>
       ),
@@ -79,7 +79,7 @@ export default function Staff() {
     {
       header: 'Status',
       accessor: () => (
-        <span className="text-xs font-medium text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+        <span className="text-xs font-mono font-medium text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/30">
           Active
         </span>
       ),
@@ -98,7 +98,7 @@ export default function Staff() {
         }}
       />
 
-      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
+      <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] p-5">
         {loading ? (
           <div className="py-12 flex justify-center">
             <LoadingSpinner size="lg" />
@@ -117,7 +117,7 @@ export default function Staff() {
                 required
                 value={form.first_name}
                 onChange={(e) => setForm({ ...form, first_name: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               />
             </FormField>
 
@@ -126,7 +126,7 @@ export default function Staff() {
                 type="text"
                 value={form.last_name}
                 onChange={(e) => setForm({ ...form, last_name: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               />
             </FormField>
           </div>
@@ -137,7 +137,7 @@ export default function Staff() {
               required
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+              className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
             />
           </FormField>
 
@@ -147,22 +147,22 @@ export default function Staff() {
               required
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
-              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+              className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
             />
           </FormField>
 
-          <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+          <div className="flex justify-end gap-2 pt-4 border-t border-white/[0.08]">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="px-3 py-1.5 border border-slate-300 rounded text-xs text-slate-700 hover:bg-slate-50"
+              className="px-3.5 py-1.5 border border-white/[0.12] bg-white/[0.06] rounded-lg text-xs text-white/70 hover:bg-white/[0.1] hover:text-white transition cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-3 py-1.5 bg-blue-700 text-white rounded text-xs font-medium hover:bg-blue-800 disabled:opacity-50"
+              className="px-3.5 py-1.5 bg-[#E8FF1F] hover:bg-[#d8ed17] text-black font-semibold rounded-lg text-xs disabled:opacity-50 transition cursor-pointer"
             >
               {submitting ? 'Saving...' : 'Save'}
             </button>

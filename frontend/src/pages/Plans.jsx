@@ -70,34 +70,34 @@ export default function Plans() {
       header: 'Plan Name',
       accessor: (p) => (
         <div>
-          <div className="font-semibold text-slate-900">{p.name}</div>
-          <div className="text-[11px] text-slate-500">Min Qty: {p.min_quantity}</div>
+          <div className="font-semibold text-white">{p.name}</div>
+          <div className="text-[11px] text-white/50 font-mono">Min Qty: {p.min_quantity}</div>
         </div>
       ),
     },
     {
       header: 'Frequency',
       accessor: (p) => (
-        <span className="capitalize px-2 py-0.5 text-xs rounded bg-slate-100 text-slate-700 font-medium">
+        <span className="capitalize px-2 py-0.5 text-xs rounded-md bg-white/[0.06] border border-white/[0.1] text-white/80 font-mono">
           {p.billing_frequency}
         </span>
       ),
     },
     {
       header: 'Price',
-      accessor: (p) => <span className="font-semibold text-slate-900">${Number(p.price).toFixed(2)}</span>,
+      accessor: (p) => <span className="font-mono font-medium text-white">${Number(p.price).toFixed(2)}</span>,
     },
     {
       header: 'Rules',
       accessor: (p) => (
-        <span className="text-xs text-slate-600">
+        <span className="text-xs text-white/60 font-mono">
           Pause: {p.allow_pause ? 'Yes' : 'No'} | Renew: {p.allow_renewal ? 'Yes' : 'No'} | Early Close: {p.allow_early_close ? 'Yes' : 'No'}
         </span>
       ),
     },
     {
       header: 'Start Date',
-      accessor: (p) => <span className="text-xs text-slate-500">{p.availability_start}</span>,
+      accessor: (p) => <span className="text-xs text-white/50 font-mono">{p.availability_start}</span>,
     },
   ];
 
@@ -117,7 +117,7 @@ export default function Plans() {
         }
       />
 
-      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
+      <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] p-5">
         {loading ? (
           <div className="py-12 flex justify-center">
             <LoadingSpinner size="lg" />
@@ -135,7 +135,7 @@ export default function Plans() {
               required
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+              className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
             />
           </FormField>
 
@@ -147,7 +147,7 @@ export default function Plans() {
                 required
                 value={form.price}
                 onChange={(e) => setForm({ ...form, price: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               />
             </FormField>
 
@@ -155,7 +155,7 @@ export default function Plans() {
               <select
                 value={form.billing_frequency}
                 onChange={(e) => setForm({ ...form, billing_frequency: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               >
                 <option value="daily">Daily</option>
                 <option value="weekly">Weekly</option>
@@ -172,7 +172,7 @@ export default function Plans() {
                 required
                 value={form.availability_start}
                 onChange={(e) => setForm({ ...form, availability_start: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               />
             </FormField>
 
@@ -181,7 +181,7 @@ export default function Plans() {
                 type="date"
                 value={form.availability_end}
                 onChange={(e) => setForm({ ...form, availability_end: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               />
             </FormField>
           </div>
@@ -192,62 +192,62 @@ export default function Plans() {
               min={1}
               value={form.min_quantity}
               onChange={(e) => setForm({ ...form, min_quantity: parseInt(e.target.value) || 1 })}
-              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+              className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
             />
           </FormField>
 
-          <div className="p-2.5 bg-slate-50 rounded border border-slate-200 text-xs space-y-1.5">
-            <p className="font-semibold text-slate-700 text-[11px]">Lifecycle Settings:</p>
-            <label className="flex items-center gap-2 cursor-pointer">
+          <div className="p-3 bg-white/[0.02] rounded-xl border border-white/[0.08] text-xs space-y-2">
+            <p className="font-semibold text-white/70 text-[11px] uppercase tracking-wider">Lifecycle Settings:</p>
+            <label className="flex items-center gap-2 cursor-pointer text-white/70 hover:text-white">
               <input
                 type="checkbox"
                 checked={form.allow_pause}
                 onChange={(e) => setForm({ ...form, allow_pause: e.target.checked })}
-                className="rounded"
+                className="rounded accent-[#E8FF1F]"
               />
               <span>Allow pausing subscription</span>
             </label>
-            <label className="flex items-center gap-2 cursor-pointer">
+            <label className="flex items-center gap-2 cursor-pointer text-white/70 hover:text-white">
               <input
                 type="checkbox"
                 checked={form.allow_renewal}
                 onChange={(e) => setForm({ ...form, allow_renewal: e.target.checked })}
-                className="rounded"
+                className="rounded accent-[#E8FF1F]"
               />
               <span>Allow renewal</span>
             </label>
-            <label className="flex items-center gap-2 cursor-pointer">
+            <label className="flex items-center gap-2 cursor-pointer text-white/70 hover:text-white">
               <input
                 type="checkbox"
                 checked={form.allow_early_close}
                 onChange={(e) => setForm({ ...form, allow_early_close: e.target.checked })}
-                className="rounded"
+                className="rounded accent-[#E8FF1F]"
               />
               <span>Allow early cancellation</span>
             </label>
-            <label className="flex items-center gap-2 cursor-pointer">
+            <label className="flex items-center gap-2 cursor-pointer text-white/70 hover:text-white">
               <input
                 type="checkbox"
                 checked={form.auto_close_on_end}
                 onChange={(e) => setForm({ ...form, auto_close_on_end: e.target.checked })}
-                className="rounded"
+                className="rounded accent-[#E8FF1F]"
               />
               <span>Auto close when end date arrives</span>
             </label>
           </div>
 
-          <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+          <div className="flex justify-end gap-2 pt-4 border-t border-white/[0.08]">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="px-3 py-1.5 border border-slate-300 rounded text-xs text-slate-700 hover:bg-slate-50"
+              className="px-3.5 py-1.5 border border-white/[0.12] bg-white/[0.06] rounded-lg text-xs text-white/70 hover:bg-white/[0.1] hover:text-white transition cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-3 py-1.5 bg-blue-700 text-white rounded text-xs font-medium hover:bg-blue-800 disabled:opacity-50"
+              className="px-3.5 py-1.5 bg-[#E8FF1F] hover:bg-[#d8ed17] text-black rounded-lg text-xs font-semibold disabled:opacity-50 transition cursor-pointer"
             >
               {submitting ? 'Saving...' : 'Save Plan'}
             </button>

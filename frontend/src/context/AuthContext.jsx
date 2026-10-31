@@ -55,6 +55,16 @@ export const AuthProvider = ({ children }) => {
     return response.data;
   }, []);
 
+  const googleAuth = useCallback(async (profile) => {
+    const response = await api.post('accounts/google/', profile);
+    const { access, refresh, user: userData } = response.data;
+    localStorage.setItem('access_token', access);
+    localStorage.setItem('refresh_token', refresh);
+    localStorage.setItem('user', JSON.stringify(userData));
+    setUser(userData);
+    return userData;
+  }, []);
+
   const logout = useCallback(() => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
@@ -78,6 +88,7 @@ export const AuthProvider = ({ children }) => {
     role,
     login,
     register,
+    googleAuth,
     logout,
     updateUser,
   };

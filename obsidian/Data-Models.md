@@ -74,3 +74,4 @@ Extends `AbstractUser` with email-based authentication:
 - `amount`: Decimal payment amount
 - `payment_date`: Date received
 - `note`: Bank reference or transaction code
+

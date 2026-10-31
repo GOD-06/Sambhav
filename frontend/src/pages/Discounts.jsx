@@ -72,8 +72,8 @@ export default function Discounts() {
       header: 'Rule Name',
       accessor: (d) => (
         <div>
-          <div className="font-semibold text-slate-900">{d.name}</div>
-          <div className="text-[11px] text-slate-500">
+          <div className="font-semibold text-white">{d.name}</div>
+          <div className="text-[11px] text-white/50">
             {d.apply_to_whole_subscription ? 'Whole subscription' : 'Per line item'}
           </div>
         </div>
@@ -82,7 +82,7 @@ export default function Discounts() {
     {
       header: 'Value',
       accessor: (d) => (
-        <span className="font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded text-xs border border-blue-200">
+        <span className="font-mono font-medium text-[#E8FF1F] bg-[#E8FF1F]/10 px-2 py-0.5 rounded-md text-xs border border-[#E8FF1F]/20">
           {d.discount_type === 'percentage' ? `${d.value}%` : `$${d.value}`}
         </span>
       ),
@@ -90,7 +90,7 @@ export default function Discounts() {
     {
       header: 'Validity',
       accessor: (d) => (
-        <span className="text-xs text-slate-600">
+        <span className="text-xs text-white/70 font-mono">
           {d.start_date} to {d.end_date || 'Ongoing'}
         </span>
       ),
@@ -98,7 +98,7 @@ export default function Discounts() {
     {
       header: 'Usage',
       accessor: (d) => (
-        <span className="text-xs text-slate-600">
+        <span className="text-xs text-white/60 font-mono">
           {d.times_used} / {d.usage_limit || 'Unlimited'}
         </span>
       ),
@@ -106,7 +106,7 @@ export default function Discounts() {
     {
       header: 'Status',
       accessor: (d) => (
-        <span className={`px-2 py-0.5 text-xs rounded font-medium border ${d.is_valid_now ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+        <span className={`px-2 py-0.5 text-xs rounded-md font-mono font-medium border ${d.is_valid_now ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-white/[0.06] text-white/50 border-white/[0.12]'}`}>
           {d.is_valid_now ? 'Active' : 'Expired'}
         </span>
       ),
@@ -129,7 +129,7 @@ export default function Discounts() {
         }
       />
 
-      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
+      <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] p-5">
         {loading ? (
           <div className="py-12 flex justify-center">
             <LoadingSpinner size="lg" />
@@ -147,7 +147,7 @@ export default function Discounts() {
               required
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+              className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
             />
           </FormField>
 
@@ -156,7 +156,7 @@ export default function Discounts() {
               <select
                 value={form.discount_type}
                 onChange={(e) => setForm({ ...form, discount_type: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               >
                 <option value="percentage">Percentage (%)</option>
                 <option value="fixed">Fixed Amount ($)</option>
@@ -170,7 +170,7 @@ export default function Discounts() {
                 required
                 value={form.value}
                 onChange={(e) => setForm({ ...form, value: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F] font-mono"
               />
             </FormField>
           </div>
@@ -182,7 +182,7 @@ export default function Discounts() {
                 step="0.01"
                 value={form.min_purchase_amount}
                 onChange={(e) => setForm({ ...form, min_purchase_amount: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F] font-mono"
               />
             </FormField>
 
@@ -191,7 +191,7 @@ export default function Discounts() {
                 type="number"
                 value={form.usage_limit}
                 onChange={(e) => setForm({ ...form, usage_limit: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F] font-mono"
               />
             </FormField>
           </div>
@@ -203,7 +203,7 @@ export default function Discounts() {
                 required
                 value={form.start_date}
                 onChange={(e) => setForm({ ...form, start_date: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F] font-mono"
               />
             </FormField>
 
@@ -212,33 +212,33 @@ export default function Discounts() {
                 type="date"
                 value={form.end_date}
                 onChange={(e) => setForm({ ...form, end_date: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F] font-mono"
               />
             </FormField>
           </div>
 
-          <label className="flex items-center gap-2 cursor-pointer text-xs text-slate-700">
+          <label className="flex items-center gap-2 cursor-pointer text-xs text-white/70 hover:text-white py-1">
             <input
               type="checkbox"
               checked={form.apply_to_whole_subscription}
               onChange={(e) => setForm({ ...form, apply_to_whole_subscription: e.target.checked })}
-              className="rounded"
+              className="rounded accent-[#E8FF1F]"
             />
             <span>Apply to whole subscription</span>
           </label>
 
-          <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+          <div className="flex justify-end gap-2 pt-4 border-t border-white/[0.08]">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="px-3 py-1.5 border border-slate-300 rounded text-xs text-slate-700 hover:bg-slate-50"
+              className="px-3.5 py-1.5 border border-white/[0.12] bg-white/[0.06] rounded-lg text-xs text-white/70 hover:bg-white/[0.1] hover:text-white transition cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-3 py-1.5 bg-blue-700 text-white rounded text-xs font-medium hover:bg-blue-800 disabled:opacity-50"
+              className="px-3.5 py-1.5 bg-[#E8FF1F] hover:bg-[#d8ed17] text-black font-semibold rounded-lg text-xs disabled:opacity-50 transition cursor-pointer"
             >
               {submitting ? 'Saving...' : 'Save'}
             </button>

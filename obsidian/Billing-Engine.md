@@ -24,3 +24,4 @@ Billing can be executed through:
    python backend/manage.py generate_invoices
    ```
 3. Scheduled Cron / Background Worker: Configured to invoke the endpoint or CLI command daily at 00:00 UTC.
+

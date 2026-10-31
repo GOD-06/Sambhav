@@ -16,13 +16,13 @@ export default function Pagination({ currentPage, totalPages, onPageChange, tota
   }
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
+    <div className="flex items-center justify-between px-4 py-3 border-t border-white/[0.08]">
       <div className="hidden sm:block">
-        <p className="text-sm text-gray-700">
-          Page <span className="font-medium">{currentPage}</span> of{' '}
-          <span className="font-medium">{totalPages}</span>
+        <p className="text-xs text-white/50 font-mono">
+          Page <span className="text-white font-medium">{currentPage}</span> of{' '}
+          <span className="text-white font-medium">{totalPages}</span>
           {totalItems > 0 && (
-            <> — <span className="font-medium">{totalItems}</span> total items</>
+            <> | <span className="text-white font-medium">{totalItems}</span> total items</>
           )}
         </p>
       </div>
@@ -30,7 +30,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, tota
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1.5 text-white/50 hover:text-white hover:bg-white/[0.08] rounded-md disabled:opacity-30 disabled:cursor-not-allowed transition"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
@@ -38,21 +38,21 @@ export default function Pagination({ currentPage, totalPages, onPageChange, tota
           <>
             <button
               onClick={() => onPageChange(1)}
-              className="px-3 py-1 text-sm rounded-lg hover:bg-gray-100 text-gray-700"
+              className="px-2.5 py-1 text-xs rounded-md hover:bg-white/[0.08] text-white/70 font-mono transition"
             >
               1
             </button>
-            {start > 2 && <span className="px-1 text-gray-400">…</span>}
+            {start > 2 && <span className="px-1 text-white/30 text-xs">...</span>}
           </>
         )}
         {pages.map((page) => (
           <button
             key={page}
             onClick={() => onPageChange(page)}
-            className={`px-3 py-1 text-sm rounded-lg ${
+            className={`px-2.5 py-1 text-xs rounded-md font-mono transition ${
               page === currentPage
-                ? 'bg-blue-600 text-white'
-                : 'hover:bg-gray-100 text-gray-700'
+                ? 'bg-[#E8FF1F] text-black font-semibold'
+                : 'hover:bg-white/[0.08] text-white/70'
             }`}
           >
             {page}
@@ -60,10 +60,10 @@ export default function Pagination({ currentPage, totalPages, onPageChange, tota
         ))}
         {end < totalPages && (
           <>
-            {end < totalPages - 1 && <span className="px-1 text-gray-400">…</span>}
+            {end < totalPages - 1 && <span className="px-1 text-white/30 text-xs">...</span>}
             <button
               onClick={() => onPageChange(totalPages)}
-              className="px-3 py-1 text-sm rounded-lg hover:bg-gray-100 text-gray-700"
+              className="px-2.5 py-1 text-xs rounded-md hover:bg-white/[0.08] text-white/70 font-mono transition"
             >
               {totalPages}
             </button>
@@ -72,7 +72,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, tota
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1.5 text-white/50 hover:text-white hover:bg-white/[0.08] rounded-md disabled:opacity-30 disabled:cursor-not-allowed transition"
         >
           <ChevronRight className="w-4 h-4" />
         </button>

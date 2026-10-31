@@ -66,9 +66,9 @@ class InvoiceViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(invoice)
         return Response({
             'company': {
-                'name': 'Brightloop Software Inc.',
+                'name': 'Subscription Management System Inc.',
                 'address': '100 Innovation Way, Tech Park',
-                'email': 'billing@brightloop.com',
+                'email': 'billing@subscriptionmanagement.com',
                 'phone': '+1 (800) 555-0199',
             },
             'invoice': serializer.data,

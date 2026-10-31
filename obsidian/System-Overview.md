@@ -15,3 +15,4 @@ Brightloop Software provides subscription-based software packages. This platform
 - **Recurring Lifecycle Machine**: Subscription transitions across Draft, Confirmed, Active, Paused, and Closed states.
 - **Billing Engine**: Batch recurring invoice generator with duplicate-billing prevention.
 - **Payment Reconciliation**: Automatic invoice status update to Paid when total payments reach or exceed the invoice amount.
+

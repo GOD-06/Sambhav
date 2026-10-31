@@ -4,28 +4,28 @@ export default function StatusBadge({ status }) {
       case 'active':
       case 'paid':
       case 'accepted':
-        return 'bg-emerald-50 text-emerald-800 border-emerald-200';
+        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
       case 'confirmed':
       case 'sent':
-        return 'bg-blue-50 text-blue-800 border-blue-200';
+        return 'bg-[#A9B2FF]/10 text-[#A9B2FF] border-[#A9B2FF]/30';
       case 'paused':
       case 'overdue':
-        return 'bg-amber-50 text-amber-800 border-amber-200';
+        return 'bg-[#FFB37A]/10 text-[#FFB37A] border-[#FFB37A]/30';
       case 'closed':
       case 'cancelled':
       case 'rejected':
       case 'expired':
-        return 'bg-rose-50 text-rose-800 border-rose-200';
+        return 'bg-rose-500/10 text-rose-400 border-rose-500/30';
       case 'draft':
       case 'quotation':
       default:
-        return 'bg-slate-100 text-slate-700 border-slate-200';
+        return 'bg-white/[0.06] text-white/60 border-white/[0.12]';
     }
   };
 
   return (
     <span
-      className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border capitalize ${getBadgeStyle(
+      className={`inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium border capitalize font-mono ${getBadgeStyle(
         status
       )}`}
     >

@@ -19,6 +19,8 @@ import TaxRules from './pages/TaxRules';
 import Staff from './pages/Staff';
 import Settings from './pages/Settings';
 import FinanceBento from './pages/FinanceBento';
+import Packages from './pages/Packages';
+import ResetPassword from './pages/ResetPassword';
 
 // Customer Portal Pages
 import MySubscriptions from './pages/MySubscriptions';
@@ -30,7 +32,7 @@ function ProtectedRoute({ children, allowedRoles }) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="flex items-center justify-center min-h-screen bg-black">
         <LoadingSpinner size="xl" />
       </div>
     );
@@ -85,6 +87,7 @@ export default function App() {
           )
         }
       />
+      <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
 
       {/* Admin and Staff Shared Routes */}
       <Route
@@ -187,6 +190,14 @@ export default function App() {
       />
 
       {/* Customer Portal Routes */}
+      <Route
+        path="/packages"
+        element={
+          <ProtectedRoute allowedRoles={['customer', 'admin', 'staff']}>
+            <Packages />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/my-subscriptions"
         element={

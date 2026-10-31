@@ -37,3 +37,4 @@ All endpoints are hosted under `/api/v1/` and accept/return JSON.
 - `GET, POST /discounts/`: Admin discount rules.
 - `GET, POST /tax-rules/`: Tax percentage rules.
 - `GET /dashboard/stats/`: Key metrics and monthly revenue chart data.
+

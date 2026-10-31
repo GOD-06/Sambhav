@@ -75,36 +75,36 @@ export default function Payments() {
   const columns = [
     {
       header: 'Invoice #',
-      accessor: (p) => <span className="font-semibold text-blue-700">{p.invoice_number}</span>,
+      accessor: (p) => <span className="font-mono font-medium text-[#A9B2FF]">{p.invoice_number}</span>,
     },
     {
       header: 'Customer',
       accessor: (p) => (
         <div>
-          <div className="font-medium text-slate-900">{p.customer_name || p.customer_email}</div>
-          <div className="text-[11px] text-slate-400">{p.customer_email}</div>
+          <div className="font-medium text-white">{p.customer_name || p.customer_email}</div>
+          <div className="text-[11px] text-white/50 font-mono">{p.customer_email}</div>
         </div>
       ),
     },
     {
       header: 'Amount',
-      accessor: (p) => <span className="font-semibold text-emerald-800">${Number(p.amount).toFixed(2)}</span>,
+      accessor: (p) => <span className="font-mono font-semibold text-emerald-400">${Number(p.amount).toFixed(2)}</span>,
     },
     {
       header: 'Method',
       accessor: (p) => (
-        <span className="capitalize px-2 py-0.5 text-xs rounded bg-slate-100 text-slate-700 font-medium">
+        <span className="capitalize px-2 py-0.5 text-xs rounded-md bg-white/[0.06] border border-white/[0.1] text-white/80 font-mono">
           {p.payment_method_display || p.payment_method.replace('_', ' ')}
         </span>
       ),
     },
     {
       header: 'Date',
-      accessor: (p) => <span className="text-xs text-slate-600">{p.payment_date}</span>,
+      accessor: (p) => <span className="text-xs text-white/60 font-mono">{p.payment_date}</span>,
     },
     {
       header: 'Note',
-      accessor: (p) => <span className="text-xs text-slate-500">{p.note || 'N/A'}</span>,
+      accessor: (p) => <span className="text-xs text-white/40">{p.note || 'N/A'}</span>,
     },
   ];
 
@@ -124,7 +124,7 @@ export default function Payments() {
         }
       />
 
-      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
+      <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] p-5">
         {loading ? (
           <div className="py-12 flex justify-center">
             <LoadingSpinner size="lg" />
@@ -141,12 +141,12 @@ export default function Payments() {
               required
               value={form.invoice}
               onChange={(e) => handleInvoiceSelect(e.target.value)}
-              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+              className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
             >
               <option value="">Select invoice...</option>
               {invoices.map((inv) => (
                 <option key={inv.id} value={inv.id}>
-                  {inv.invoice_number} - {inv.customer_name || inv.customer_email} (Due: ${Number(inv.outstanding_amount || inv.total).toFixed(2)})
+                  {inv.invoice_number} | {inv.customer_name || inv.customer_email} (Due: ${Number(inv.outstanding_amount || inv.total).toFixed(2)})
                 </option>
               ))}
             </select>
@@ -160,7 +160,7 @@ export default function Payments() {
                 required
                 value={form.amount}
                 onChange={(e) => setForm({ ...form, amount: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F] font-mono"
               />
             </FormField>
 
@@ -168,7 +168,7 @@ export default function Payments() {
               <select
                 value={form.payment_method}
                 onChange={(e) => setForm({ ...form, payment_method: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               >
                 <option value="bank_transfer">Bank Transfer</option>
                 <option value="credit_card">Credit Card</option>
@@ -185,7 +185,7 @@ export default function Payments() {
               required
               value={form.payment_date}
               onChange={(e) => setForm({ ...form, payment_date: e.target.value })}
-              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+              className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F] font-mono"
             />
           </FormField>
 
@@ -194,22 +194,22 @@ export default function Payments() {
               type="text"
               value={form.note}
               onChange={(e) => setForm({ ...form, note: e.target.value })}
-              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+              className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
             />
           </FormField>
 
-          <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
+          <div className="flex justify-end gap-2 pt-4 border-t border-white/[0.08]">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="px-3 py-1.5 border border-slate-300 rounded text-xs text-slate-700 hover:bg-slate-50"
+              className="px-3.5 py-1.5 border border-white/[0.12] bg-white/[0.06] rounded-lg text-xs text-white/70 hover:bg-white/[0.1] hover:text-white transition cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-3 py-1.5 bg-emerald-700 text-white rounded text-xs font-medium hover:bg-emerald-800 disabled:opacity-50"
+              className="px-3.5 py-1.5 bg-[#E8FF1F] hover:bg-[#d8ed17] text-black rounded-lg text-xs font-semibold disabled:opacity-50 transition cursor-pointer"
             >
               {submitting ? 'Saving...' : 'Save Payment'}
             </button>

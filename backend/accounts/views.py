@@ -86,6 +86,46 @@ class LoginView(APIView):
         })
 
 
+class GoogleAuthView(APIView):
+    """Customer Google sign-in and sign-up endpoint."""
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        email = request.data.get('email', '').strip().lower()
+        if not email:
+            return Response({'detail': 'Google email is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        first_name = request.data.get('first_name', '')
+        last_name = request.data.get('last_name', '')
+
+        user = User.objects.filter(email__iexact=email).first()
+        if not user:
+            user = User.objects.create_user(
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+                role='customer',
+                is_active=True,
+            )
+            user.set_unusable_password()
+            user.save()
+        elif not user.is_active:
+            return Response({'detail': 'Account is disabled.'}, status=status.HTTP_403_FORBIDDEN)
+
+        refresh = RefreshToken.for_user(user)
+        access_token = str(refresh.access_token)
+        refresh_token = str(refresh)
+        return Response({
+            'user': UserSerializer(user).data,
+            'access': access_token,
+            'refresh': refresh_token,
+            'tokens': {
+                'refresh': refresh_token,
+                'access': access_token,
+            }
+        }, status=status.HTTP_200_OK)
+
+
 class ProfileView(APIView):
     """Current authenticated user profile."""
     permission_classes = [IsAuthenticated]
@@ -203,7 +243,7 @@ class PasswordResetRequestView(APIView):
         reset_url = f"http://localhost:5173/reset-password/{uid}/{token}/"
 
         send_mail(
-            subject='Brightloop - Password Reset Request',
+            subject='Subscription Management System - Password Reset Request',
             message=f'Use this link to reset your password: {reset_url}',
             from_email='noreply@brightloop.com',
             recipient_list=[email],

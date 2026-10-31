@@ -16,12 +16,12 @@ import {
   Repeat,
   FileBarChart,
   User,
-  Wallet,
+  Zap,
 } from 'lucide-react';
 
 const adminLinks = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/finance-bento', icon: Wallet, label: 'Finance Bento' },
+  { to: '/packages', icon: Zap, label: 'Subscribe Packages' },
   { to: '/customers', icon: Users, label: 'Customers' },
   { to: '/products', icon: Package, label: 'Products' },
   { to: '/plans', icon: ClipboardList, label: 'Plans' },
@@ -37,6 +37,7 @@ const adminLinks = [
 
 const staffLinks = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/packages', icon: Zap, label: 'Subscribe Packages' },
   { to: '/customers', icon: Users, label: 'Customers' },
   { to: '/products', icon: Package, label: 'Products' },
   { to: '/plans', icon: ClipboardList, label: 'Plans' },
@@ -48,6 +49,7 @@ const staffLinks = [
 ];
 
 const customerLinks = [
+  { to: '/packages', icon: Zap, label: 'Subscribe Packages' },
   { to: '/my-subscriptions', icon: Repeat, label: 'My Subscriptions' },
   { to: '/my-invoices', icon: FileText, label: 'My Invoices' },
   { to: '/my-payments', icon: CreditCard, label: 'My Payments' },
@@ -73,31 +75,36 @@ export default function Sidebar({ onClose }) {
   };
 
   return (
-    <div className="flex flex-col h-full w-64 bg-slate-900 text-slate-100 border-r border-slate-800">
-      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 bg-blue-700 rounded flex items-center justify-center font-bold text-sm text-white">
-            B
+    <div className="flex flex-col h-full w-64 bg-black text-white border-r border-white/[0.08]">
+      {/* Brand Header */}
+      <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.08]">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-[#E8FF1F] text-black flex items-center justify-center font-bold text-xs tracking-tight shadow-sm font-mono">
+            SM
           </div>
-          <span className="font-semibold text-slate-100 tracking-tight">Brightloop</span>
+          <div>
+            <span className="font-bold text-sm tracking-tight text-white block leading-tight">Subscription</span>
+            <span className="text-[11px] text-white/50 block font-mono">Management System</span>
+          </div>
         </div>
-        <button onClick={onClose} className="lg:hidden p-1 hover:bg-slate-800 rounded">
-          <X className="w-5 h-5 text-slate-400" />
+        <button onClick={onClose} className="lg:hidden p-1 hover:bg-white/10 rounded">
+          <X className="w-5 h-5 text-white/50" />
         </button>
       </div>
 
-      <nav className="flex-1 overflow-y-auto py-3 px-3">
-        <div className="space-y-0.5">
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto py-4 px-3">
+        <div className="space-y-1">
           {links.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               onClick={onClose}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition ${
+                `flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold tracking-tight transition ${
                   isActive
-                    ? 'bg-blue-700 text-white'
-                    : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                    ? 'bg-white text-black font-bold'
+                    : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
                 }`
               }
             >
@@ -108,21 +115,22 @@ export default function Sidebar({ onClose }) {
         </div>
       </nav>
 
-      <div className="border-t border-slate-800 p-3">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-slate-800 rounded text-slate-200 flex items-center justify-center text-xs font-semibold">
+      {/* User Info */}
+      <div className="border-t border-white/[0.08] p-3 bg-white/[0.02]">
+        <div className="flex items-center gap-3 px-1 py-1">
+          <div className="w-8 h-8 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center text-xs font-bold font-mono">
             {getInitials(user)}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-medium text-slate-200 truncate">
+            <p className="text-xs font-medium text-white truncate">
               {user?.first_name ? `${user.first_name} ${user.last_name || ''}` : user?.email}
             </p>
-            <p className="text-[11px] text-slate-400 capitalize">{user?.role || 'Customer'}</p>
+            <p className="text-[10px] text-white/40 uppercase tracking-wider">{user?.role || 'Customer'}</p>
           </div>
           <button
             onClick={handleLogout}
-            className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded"
-            title="Logout"
+            className="p-1.5 text-white/40 hover:text-[#E8FF1F] hover:bg-white/10 rounded-lg transition"
+            title="Sign out"
           >
             <LogOut className="w-4 h-4" />
           </button>

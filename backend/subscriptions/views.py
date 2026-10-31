@@ -1,10 +1,12 @@
 from datetime import date, timedelta
+from decimal import Decimal
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from accounts.permissions import IsStaffUser, IsOwnerOrStaff
+from products.models import Product, SubscriptionPlan
 from .models import QuotationTemplate, Quotation, Subscription, SubscriptionLine
 from .serializers import (
     QuotationTemplateSerializer,
@@ -124,6 +126,122 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
         if not sub.next_billing_date and sub.start_date:
             sub.next_billing_date = calculate_next_billing_date(sub.start_date, sub.plan.billing_frequency)
             sub.save()
+
+    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
+    def subscribe(self, request):
+        """
+        Customer endpoint to subscribe to a plan and optionally pay immediately.
+        Accepts: { plan_id, payment_method, note }
+        """
+        plan_id = request.data.get('plan_id')
+        if not plan_id:
+            return Response({'error': 'Plan ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            plan = SubscriptionPlan.objects.get(id=plan_id, is_active=True)
+        except SubscriptionPlan.DoesNotExist:
+            return Response({'error': 'Subscription plan not found or inactive.'}, status=status.HTTP_404_NOT_FOUND)
+
+        customer = request.user
+        if request.user.role in ('admin', 'staff') and request.data.get('customer_id'):
+            from accounts.models import User
+            try:
+                customer = User.objects.get(id=request.data.get('customer_id'))
+            except User.DoesNotExist:
+                return Response({'error': 'Customer not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        today = date.today()
+        next_billing = calculate_next_billing_date(today, plan.billing_frequency)
+
+        # Create subscription
+        sub = Subscription.objects.create(
+            customer=customer,
+            plan=plan,
+            start_date=today,
+            next_billing_date=next_billing,
+            payment_terms='Immediate',
+            status='active',
+            created_by=customer,
+        )
+
+        # Ensure product
+        product = plan.product
+        if not product:
+            product = Product.objects.first()
+            if not product:
+                product = Product.objects.create(
+                    name=plan.name,
+                    product_type='Software',
+                    sales_price=plan.price,
+                    cost_price=Decimal('0.00'),
+                )
+
+        SubscriptionLine.objects.create(
+            subscription=sub,
+            product=product,
+            quantity=1,
+            unit_price=plan.price,
+            tax_rate=Decimal('0.00'),
+            discount_amount=Decimal('0.00'),
+            line_total=plan.price,
+        )
+
+        # Create invoice
+        from invoices.models import Invoice, InvoiceLine
+        from payments.models import Payment
+
+        invoice = Invoice.objects.create(
+            subscription=sub,
+            customer=customer,
+            issue_date=today,
+            due_date=today + timedelta(days=7),
+            status='paid',
+            subtotal=plan.price,
+            tax_total=Decimal('0.00'),
+            discount_total=Decimal('0.00'),
+            total=plan.price,
+            billing_period_start=today,
+            billing_period_end=next_billing - timedelta(days=1),
+            notes=f'Initial billing for {plan.name}',
+        )
+
+        InvoiceLine.objects.create(
+            invoice=invoice,
+            product=product,
+            description=f'{plan.name} ({plan.get_billing_frequency_display()})',
+            quantity=1,
+            unit_price=plan.price,
+            tax_rate=Decimal('0.00'),
+            discount_amount=Decimal('0.00'),
+        )
+        invoice.calculate_totals()
+
+        # Create payment
+        payment_method = request.data.get('payment_method', 'credit_card')
+        note = request.data.get('note', f'Online checkout for {plan.name}')
+        payment = Payment.objects.create(
+            invoice=invoice,
+            payment_method=payment_method,
+            amount=invoice.total,
+            payment_date=today,
+            note=note,
+            created_by=customer,
+        )
+
+        return Response({
+            'message': f'Subscribed to {plan.name} successfully.',
+            'subscription_id': sub.id,
+            'subscription_number': sub.subscription_number,
+            'invoice_id': invoice.id,
+            'invoice_number': invoice.invoice_number,
+            'payment_id': payment.id,
+            'amount': float(payment.amount),
+            'payment_method': payment.payment_method,
+            'payment_date': str(payment.payment_date),
+            'status': sub.status,
+            'plan_name': plan.name,
+            'billing_frequency': plan.billing_frequency,
+        }, status=status.HTTP_201_CREATED)
 
     @action(detail=True, methods=['post'], permission_classes=[IsStaffUser])
     def activate(self, request, pk=None):

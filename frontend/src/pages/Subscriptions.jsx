@@ -52,24 +52,24 @@ export default function Subscriptions() {
   const columns = [
     {
       header: 'Subscription #',
-      accessor: (s) => <span className="font-semibold text-blue-700">{s.subscription_number}</span>,
+      accessor: (s) => <span className="font-mono font-medium text-[#A9B2FF]">{s.subscription_number}</span>,
     },
     {
       header: 'Customer',
       accessor: (s) => (
         <div>
-          <div className="font-medium text-slate-900">{s.customer_name || s.customer_email}</div>
-          <div className="text-[11px] text-slate-400">{s.customer_email}</div>
+          <div className="font-medium text-white">{s.customer_name || s.customer_email}</div>
+          <div className="text-[11px] text-white/50 font-mono">{s.customer_email}</div>
         </div>
       ),
     },
     {
       header: 'Plan',
-      accessor: (s) => <span className="text-slate-800 text-xs">{s.plan_name}</span>,
+      accessor: (s) => <span className="text-white/80 text-xs">{s.plan_name}</span>,
     },
     {
       header: 'Next Billing',
-      accessor: (s) => <span className="text-xs text-slate-600">{s.next_billing_date || 'N/A'}</span>,
+      accessor: (s) => <span className="text-xs text-white/60 font-mono">{s.next_billing_date || 'N/A'}</span>,
     },
     {
       header: 'Status',
@@ -77,15 +77,15 @@ export default function Subscriptions() {
     },
     {
       header: 'Amount',
-      accessor: (s) => <span className="font-semibold text-slate-900">${Number(s.total || 0).toFixed(2)}</span>,
+      accessor: (s) => <span className="font-mono font-medium text-white">${Number(s.total || 0).toFixed(2)}</span>,
     },
     {
       header: 'Actions',
       accessor: (s) => (
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
           <button
             onClick={() => setSelectedSub(s)}
-            className="p-1 text-slate-500 hover:text-blue-700 hover:bg-slate-100 rounded text-xs"
+            className="p-1 text-white/50 hover:text-white hover:bg-white/[0.08] rounded-md transition cursor-pointer"
             title="View Details"
           >
             <Eye className="w-3.5 h-3.5" />
@@ -95,7 +95,7 @@ export default function Subscriptions() {
             <button
               onClick={() => handleAction(subscriptionService.activate, s.id, 'Subscription activated.')}
               disabled={actionLoading}
-              className="p-1 text-emerald-700 hover:bg-emerald-50 rounded"
+              className="p-1 text-emerald-400 hover:bg-emerald-500/10 rounded-md transition cursor-pointer"
               title="Activate"
             >
               <Play className="w-3.5 h-3.5" />
@@ -106,7 +106,7 @@ export default function Subscriptions() {
             <button
               onClick={() => handleAction(subscriptionService.pause, s.id, 'Subscription paused.')}
               disabled={actionLoading}
-              className="p-1 text-amber-700 hover:bg-amber-50 rounded"
+              className="p-1 text-[#FFB37A] hover:bg-amber-500/10 rounded-md transition cursor-pointer"
               title="Pause"
             >
               <Pause className="w-3.5 h-3.5" />
@@ -117,7 +117,7 @@ export default function Subscriptions() {
             <button
               onClick={() => handleAction(subscriptionService.resume, s.id, 'Subscription resumed.')}
               disabled={actionLoading}
-              className="p-1 text-blue-700 hover:bg-blue-50 rounded"
+              className="p-1 text-[#A9B2FF] hover:bg-sky-500/10 rounded-md transition cursor-pointer"
               title="Resume"
             >
               <Play className="w-3.5 h-3.5" />
@@ -128,7 +128,7 @@ export default function Subscriptions() {
             <button
               onClick={() => handleAction(subscriptionService.close, s.id, 'Subscription closed.')}
               disabled={actionLoading}
-              className="p-1 text-rose-600 hover:bg-rose-50 rounded"
+              className="p-1 text-rose-400 hover:bg-rose-500/10 rounded-md transition cursor-pointer"
               title="Close"
             >
               <XCircle className="w-3.5 h-3.5" />
@@ -139,7 +139,7 @@ export default function Subscriptions() {
             <button
               onClick={() => handleAction(subscriptionService.renew, s.id, 'Subscription renewed.')}
               disabled={actionLoading}
-              className="p-1 text-indigo-700 hover:bg-indigo-50 rounded"
+              className="p-1 text-purple-400 hover:bg-purple-500/10 rounded-md transition cursor-pointer"
               title="Renew"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -157,7 +157,7 @@ export default function Subscriptions() {
         description="Active agreements, recurrence intervals, and lifecycle states"
       />
 
-      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm">
+      <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] p-5">
         {loading ? (
           <div className="py-12 flex justify-center">
             <LoadingSpinner size="lg" />
@@ -173,71 +173,71 @@ export default function Subscriptions() {
           onClose={() => setSelectedSub(null)}
           title={`Subscription ${selectedSub.subscription_number}`}
         >
-          <div className="space-y-3">
-            <div className="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-2.5 rounded border border-slate-200">
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3 text-xs bg-white/[0.02] p-3 rounded-xl border border-white/[0.08]">
               <div>
-                <span className="text-slate-400 block text-[11px]">Customer</span>
-                <span className="font-semibold text-slate-800">{selectedSub.customer_name || selectedSub.customer_email}</span>
+                <span className="text-white/40 block text-[11px] uppercase tracking-wider">Customer</span>
+                <span className="font-medium text-white">{selectedSub.customer_name || selectedSub.customer_email}</span>
               </div>
               <div>
-                <span className="text-slate-400 block text-[11px]">Plan</span>
-                <span className="font-semibold text-slate-800">{selectedSub.plan_name}</span>
+                <span className="text-white/40 block text-[11px] uppercase tracking-wider">Plan</span>
+                <span className="font-medium text-white">{selectedSub.plan_name}</span>
               </div>
               <div>
-                <span className="text-slate-400 block text-[11px]">Start Date</span>
-                <span className="font-semibold text-slate-800">{selectedSub.start_date}</span>
+                <span className="text-white/40 block text-[11px] uppercase tracking-wider">Start Date</span>
+                <span className="font-mono text-white/80">{selectedSub.start_date}</span>
               </div>
               <div>
-                <span className="text-slate-400 block text-[11px]">Next Billing</span>
-                <span className="font-semibold text-blue-700">{selectedSub.next_billing_date || 'N/A'}</span>
+                <span className="text-white/40 block text-[11px] uppercase tracking-wider">Next Billing</span>
+                <span className="font-mono text-[#E8FF1F]">{selectedSub.next_billing_date || 'N/A'}</span>
               </div>
               <div>
-                <span className="text-slate-400 block text-[11px]">Terms</span>
-                <span className="font-semibold text-slate-800">{selectedSub.payment_terms}</span>
+                <span className="text-white/40 block text-[11px] uppercase tracking-wider">Terms</span>
+                <span className="text-white/80">{selectedSub.payment_terms}</span>
               </div>
               <div>
-                <span className="text-slate-400 block text-[11px]">Status</span>
+                <span className="text-white/40 block text-[11px] uppercase tracking-wider">Status</span>
                 <StatusBadge status={selectedSub.status} />
               </div>
             </div>
 
             <div>
-              <h4 className="text-xs font-semibold text-slate-700 mb-1.5">Products:</h4>
-              <div className="border border-slate-200 rounded divide-y text-xs">
+              <h4 className="text-xs font-semibold text-white/70 mb-2 uppercase tracking-wider">Products:</h4>
+              <div className="border border-white/[0.08] rounded-xl divide-y divide-white/[0.04] text-xs">
                 {selectedSub.lines?.map((line) => (
-                  <div key={line.id} className="p-2 flex justify-between items-center">
+                  <div key={line.id} className="p-2.5 flex justify-between items-center">
                     <div>
-                      <p className="font-medium text-slate-800">{line.product_name}</p>
-                      <p className="text-slate-400 text-[11px]">
-                        Qty: {line.quantity} × ${line.unit_price} (Tax: {line.tax_rate}%)
+                      <p className="font-medium text-white">{line.product_name}</p>
+                      <p className="text-white/40 text-[11px] font-mono">
+                        Qty: {line.quantity} * ${line.unit_price} (Tax: {line.tax_rate}%)
                       </p>
                     </div>
-                    <span className="font-semibold text-slate-900">${line.line_total}</span>
+                    <span className="font-mono font-semibold text-white">${line.line_total}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="text-right space-y-1 text-xs border-t border-slate-200 pt-2">
-              <div className="flex justify-between text-slate-600">
+            <div className="text-right space-y-1 text-xs border-t border-white/[0.08] pt-3 font-mono">
+              <div className="flex justify-between text-white/60">
                 <span>Subtotal:</span>
                 <span>${selectedSub.subtotal}</span>
               </div>
-              <div className="flex justify-between text-slate-600">
+              <div className="flex justify-between text-white/60">
                 <span>Tax:</span>
                 <span>${selectedSub.tax_total}</span>
               </div>
-              <div className="flex justify-between font-bold text-slate-900 text-sm border-t border-slate-100 pt-1">
+              <div className="flex justify-between font-bold text-white text-sm border-t border-white/[0.08] pt-2">
                 <span>Recurring Amount:</span>
                 <span>${selectedSub.total}</span>
               </div>
             </div>
 
-            <div className="flex gap-2 pt-2 border-t border-slate-100">
+            <div className="flex gap-2 pt-3 border-t border-white/[0.08]">
               {isStaff && selectedSub.status === 'confirmed' && (
                 <button
                   onClick={() => handleAction(subscriptionService.activate, selectedSub.id, 'Subscription activated.')}
-                  className="flex-1 py-1.5 bg-emerald-700 text-white rounded text-xs font-medium hover:bg-emerald-800 flex items-center justify-center gap-1"
+                  className="flex-1 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-400 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
                 >
                   <Play className="w-3.5 h-3.5" /> Activate
                 </button>
@@ -245,7 +245,7 @@ export default function Subscriptions() {
               {isStaff && selectedSub.status === 'active' && (
                 <button
                   onClick={() => handleAction(subscriptionService.pause, selectedSub.id, 'Subscription paused.')}
-                  className="flex-1 py-1.5 bg-amber-700 text-white rounded text-xs font-medium hover:bg-amber-800 flex items-center justify-center gap-1"
+                  className="flex-1 py-2 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-[#FFB37A] rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
                 >
                   <Pause className="w-3.5 h-3.5" /> Pause
                 </button>
@@ -253,7 +253,7 @@ export default function Subscriptions() {
               {isStaff && selectedSub.status === 'paused' && (
                 <button
                   onClick={() => handleAction(subscriptionService.resume, selectedSub.id, 'Subscription resumed.')}
-                  className="flex-1 py-1.5 bg-blue-700 text-white rounded text-xs font-medium hover:bg-blue-800 flex items-center justify-center gap-1"
+                  className="flex-1 py-2 bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-[#A9B2FF] rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
                 >
                   <Play className="w-3.5 h-3.5" /> Resume
                 </button>
@@ -261,7 +261,7 @@ export default function Subscriptions() {
               {isStaff && (selectedSub.status === 'active' || selectedSub.status === 'paused') && (
                 <button
                   onClick={() => handleAction(subscriptionService.close, selectedSub.id, 'Subscription closed.')}
-                  className="flex-1 py-1.5 bg-rose-700 text-white rounded text-xs font-medium hover:bg-rose-800 flex items-center justify-center gap-1"
+                  className="flex-1 py-2 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-400 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
                 >
                   <XCircle className="w-3.5 h-3.5" /> Close
                 </button>
@@ -269,7 +269,7 @@ export default function Subscriptions() {
               {isStaff && selectedSub.status === 'closed' && (
                 <button
                   onClick={() => handleAction(subscriptionService.renew, selectedSub.id, 'Subscription renewed.')}
-                  className="flex-1 py-1.5 bg-indigo-700 text-white rounded text-xs font-medium hover:bg-indigo-800 flex items-center justify-center gap-1"
+                  className="flex-1 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
                 >
                   <RotateCcw className="w-3.5 h-3.5" /> Renew
                 </button>

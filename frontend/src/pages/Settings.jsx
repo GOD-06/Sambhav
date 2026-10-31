@@ -61,23 +61,23 @@ export default function Settings() {
   };
 
   return (
-    <div className="space-y-4 max-w-3xl">
+    <div className="space-y-5 max-w-3xl">
       <PageHeader
         title="Settings"
         description="Profile details and password credentials"
       />
 
-      <div className="bg-white rounded-lg border border-slate-200 p-5 shadow-sm">
-        <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Profile</h3>
+      <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] p-5">
+        <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-4">Profile</h3>
 
-        <form onSubmit={handleUpdateProfile} className="space-y-3">
+        <form onSubmit={handleUpdateProfile} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <FormField label="First Name">
               <input
                 type="text"
                 value={profileForm.first_name}
                 onChange={(e) => setProfileForm({ ...profileForm, first_name: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               />
             </FormField>
 
@@ -86,7 +86,7 @@ export default function Settings() {
                 type="text"
                 value={profileForm.last_name}
                 onChange={(e) => setProfileForm({ ...profileForm, last_name: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               />
             </FormField>
           </div>
@@ -97,7 +97,7 @@ export default function Settings() {
                 type="email"
                 disabled
                 value={user?.email || ''}
-                className="w-full px-2.5 py-1.5 border border-slate-200 bg-slate-50 rounded text-xs text-slate-500 cursor-not-allowed"
+                className="w-full px-3 py-2 border border-white/[0.08] bg-white/[0.02] rounded-lg text-xs text-white/40 cursor-not-allowed font-mono"
               />
             </FormField>
 
@@ -106,7 +106,7 @@ export default function Settings() {
                 type="text"
                 disabled
                 value={user?.role || 'Customer'}
-                className="w-full px-2.5 py-1.5 border border-slate-200 bg-slate-50 rounded text-xs text-slate-500 capitalize cursor-not-allowed"
+                className="w-full px-3 py-2 border border-white/[0.08] bg-white/[0.02] rounded-lg text-xs text-white/40 capitalize cursor-not-allowed font-mono"
               />
             </FormField>
           </div>
@@ -117,7 +117,7 @@ export default function Settings() {
                 type="text"
                 value={profileForm.company_name}
                 onChange={(e) => setProfileForm({ ...profileForm, company_name: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               />
             </FormField>
 
@@ -126,16 +126,16 @@ export default function Settings() {
                 type="text"
                 value={profileForm.phone}
                 onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F] font-mono"
               />
             </FormField>
           </div>
 
-          <div className="flex justify-end pt-2">
+          <div className="flex justify-end pt-3 border-t border-white/[0.08]">
             <button
               type="submit"
               disabled={savingProfile}
-              className="px-3 py-1.5 bg-blue-700 text-white rounded text-xs font-medium hover:bg-blue-800 disabled:opacity-50"
+              className="px-3.5 py-1.5 bg-[#E8FF1F] hover:bg-[#d8ed17] text-black font-semibold rounded-lg text-xs disabled:opacity-50 transition cursor-pointer"
             >
               {savingProfile ? 'Saving...' : 'Save Profile'}
             </button>
@@ -143,17 +143,17 @@ export default function Settings() {
         </form>
       </div>
 
-      <div className="bg-white rounded-lg border border-slate-200 p-5 shadow-sm">
-        <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Security</h3>
+      <div className="bg-white/[0.03] rounded-2xl border border-white/[0.08] p-5">
+        <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-4">Security</h3>
 
-        <form onSubmit={handleChangePassword} className="space-y-3">
+        <form onSubmit={handleChangePassword} className="space-y-4">
           <FormField label="Current Password" required>
             <input
               type="password"
               required
               value={passwordForm.old_password}
               onChange={(e) => setPasswordForm({ ...passwordForm, old_password: e.target.value })}
-              className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+              className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
             />
           </FormField>
 
@@ -164,7 +164,7 @@ export default function Settings() {
                 required
                 value={passwordForm.new_password}
                 onChange={(e) => setPasswordForm({ ...passwordForm, new_password: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               />
             </FormField>
 
@@ -174,16 +174,16 @@ export default function Settings() {
                 required
                 value={passwordForm.confirm_password}
                 onChange={(e) => setPasswordForm({ ...passwordForm, confirm_password: e.target.value })}
-                className="w-full px-2.5 py-1.5 border border-slate-300 rounded text-xs outline-none focus:border-blue-700"
+                className="w-full px-3 py-2 border border-white/[0.12] bg-white/[0.05] rounded-lg text-xs text-white outline-none focus:border-[#E8FF1F]"
               />
             </FormField>
           </div>
 
-          <div className="flex justify-end pt-2">
+          <div className="flex justify-end pt-3 border-t border-white/[0.08]">
             <button
               type="submit"
               disabled={savingPassword}
-              className="px-3 py-1.5 bg-slate-900 text-white rounded text-xs font-medium hover:bg-black disabled:opacity-50"
+              className="px-3.5 py-1.5 bg-white/[0.1] hover:bg-white/[0.15] text-white border border-white/[0.15] font-semibold rounded-lg text-xs disabled:opacity-50 transition cursor-pointer"
             >
               {savingPassword ? 'Updating...' : 'Change Password'}
             </button>

@@ -36,3 +36,4 @@ The system enforces three user roles:
 - Data Isolation:
   - Queries are automatically filtered by `customer = request.user`.
   - Attempts to view another customer's invoice or subscription return HTTP 404 or 403.
+

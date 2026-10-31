@@ -51,3 +51,4 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS("All fabricated records removed."))
         self.stdout.write(self.style.SUCCESS("Clean admin preserved: admin@brightloop.com"))
+
