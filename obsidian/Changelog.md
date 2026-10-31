@@ -1,5 +1,17 @@
 # Obsidian Project Change Log
 
+## [1.3.5] - Remote Repository Deployment to GitHub
+
+### Changes Implemented
+- **GitHub Repository Synchronization**:
+  - Connected repository to remote target `https://github.com/GOD-06/Sambhav.git`.
+  - Merged existing remote files and set up tracking branch `main`.
+  - Pushed all production source code (backend Django application, frontend React dashboard, and full obsidian documentation vault).
+- **Documentation Overhaul**:
+  - Rewrote root `README.md` with system overview, architecture specifications, rapid start instructions, default credentials, and vault links.
+
+---
+
 ## [1.3.4] - 10 Dedicated Customer Dummy Subscriptions & Admin-Staff Live Visibility
 
 ### Changes Implemented
